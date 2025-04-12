@@ -59,10 +59,21 @@ const config: Config = {
           '5': 'hsl(var(--chart-5))',
         },
       },
+      fontSize: {
+        // header: '40px',
+        // md: '0.9375rem',
+        xs: '0.75rem',
+        xxs: '0.725rem',
+        // '2xs': '0.8rem',
+        // xxs: '11px',
+      },
       borderRadius: {
         lg: 'var(--radius)',
         md: 'calc(var(--radius) - 2px)',
         sm: 'calc(var(--radius) - 4px)',
+      },
+      letterSpacing: {
+        '3': '3%',
       },
     },
   },
