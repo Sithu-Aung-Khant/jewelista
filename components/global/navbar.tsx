@@ -1,12 +1,13 @@
 import React from 'react';
-// import Link from 'next/link';
 import Announcement from './announcement';
+import Navigation from './Navigation';
 
 const Navbar = () => {
   return (
-    <>
+    <header className='w-full bg-white'>
       <Announcement />
-    </>
+      <Navigation />
+    </header>
   );
 };
 

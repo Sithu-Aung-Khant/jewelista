@@ -4,7 +4,7 @@ import { ActionButtons } from './IconButtons';
 
 const Announcement = () => {
   return (
-    <div className='text-xxs tracking-3 md:text-xs py-1.5 border md:flex justify-between border-b-2 border-border-brown text-center'>
+    <div className='text-xxs w-full tracking-3 md:text-xs py-1.5 border md:flex justify-between border-b-2 border-border-brown text-center'>
       <div className='hidden md:flex items-center w-1/4 gap-x-2 px-4'>
         <AppointmentButton />
       </div>

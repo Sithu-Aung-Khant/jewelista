@@ -17,10 +17,10 @@ export const IconButton = ({
   className,
 }: IconButtonProps) => (
   <button
-    className={`hover:opacity-80 transition-opacity ${className}`}
+    className="hover:opacity-80 transition-opacity"
     title={title}
     aria-label={ariaLabel}
   >
-    <Image src={icon} className='size-4' width={20} height={20} alt={alt} />
+    <Image src={icon} className={className} width={20} height={20} alt={alt} />
   </button>
 );
