@@ -75,6 +75,10 @@ const config: Config = {
       letterSpacing: {
         '3': '3%',
       },
+      fontFamily: {
+        'playfair-display': ['Playfair Display', 'serif'],
+        'dm-sans': ['DM Sans', 'sans-serif'],
+      },
     },
   },
   plugins: [tailwindcssAnimate],

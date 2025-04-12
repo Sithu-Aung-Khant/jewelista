@@ -11,8 +11,8 @@ import CalendarIcon from '@/public/icons/calendar.svg';
 import { NAV_ITEMS } from '@/lib/navigationItems';
 
 const Navigation = () => (
-  <nav className='flex items-center justify-between h-14'>
-    <div className='flex gap-x-2.5 w-1/4 md:hidden'>
+  <nav className='flex items-center justify-between h-14 border-b shadow-md'>
+    <div className='flex gap-x-2.5 pl-2 w-1/4 md:hidden'>
       <IconButton
         icon={TbMenu2}
         alt='menu'
@@ -42,7 +42,7 @@ const Navigation = () => (
         </Link>
       ))}
     </div>
-    <div className='flex h-full w-1/4 md:pr-8 md:pl-4 py-3 md:border-l-2 md:w-max justify-end items-center gap-x-2.5'>
+    <div className='flex h-full w-1/4 md:hover:cursor-pointer md:pr-8 md:pl-4 pr-2 py-3 md:border-l-2 md:w-max justify-end items-center gap-x-2.5'>
       <IconButton
         icon={HeartIcon}
         alt='heart icon'
