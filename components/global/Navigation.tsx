@@ -29,7 +29,12 @@ const Navigation = () => (
       />
     </div>
     <Link href='/' className='flex-shrink-0 md:px-8 py-3 md:border-r-2'>
-      <Image src={Logo} alt='MyJewel Logo' className='h-8 w-auto' priority />
+      <Image
+        src={Logo}
+        alt='MyJewel Logo'
+        className='md:h-8 h-6 w-auto'
+        priority
+      />
     </Link>
     <div className='hidden md:flex items-center gap-x-8 text-sm tracking-widest'>
       {NAV_ITEMS.map((item) => (

@@ -5,7 +5,7 @@ import Image from 'next/image';
 
 export default function Hero() {
   return (
-    <section className='relative w-full h-[420px]'>
+    <section className='relative w-full md:h-[420px]'>
       <Image
         src='/images/background/hero-bg-desktop.jpg'
         alt='Hero Background'
