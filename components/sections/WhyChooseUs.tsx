@@ -8,7 +8,7 @@ import CircleDesktop from '@/public/images/background/circle-desktop.svg';
 
 export default function WhyChooseUs() {
   return (
-    <section className='w-full py-24 px-4 md:px-8 mb-20 h-max bg-offwhite relative overflow-hidden'>
+    <section className='w-full py-24 px-4 md:px-8 h-max bg-offwhite relative overflow-hidden'>
       {/* Background Circles */}
       <Image
         src={CircleMobile}
@@ -18,7 +18,7 @@ export default function WhyChooseUs() {
       <Image
         src={CircleDesktop}
         alt='Background circle'
-        className='object-contain hidden md:absolute bottom-0 right-0 w-[742px] h-max'
+        className='object-contain hidden md:block absolute bottom-0 right-0 w-[742px] h-max'
       />
 
       <div className='max-w-7xl mx-auto relative'>
