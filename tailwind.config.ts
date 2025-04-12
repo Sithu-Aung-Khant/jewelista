@@ -15,6 +15,8 @@ const config: Config = {
         background: 'hsl(var(--background))',
         foreground: 'hsl(var(--foreground))',
         white: '#FFFFFF',
+        offwhite: '#FCFCFC',
+        'deep-blue': '#15274B',
         'darkest-brown': '#101010',
         'dark-brown': ' #434343',
         'light-brown': '#7A7A7A',
