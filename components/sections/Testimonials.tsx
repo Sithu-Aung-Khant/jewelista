@@ -24,8 +24,29 @@ export default function Testimonials() {
   useEffect(() => {
     const loadTestimonials = async () => {
       try {
+        // Check for cached data
+        const cachedData = localStorage.getItem('testimonials');
+        const cacheTimestamp = localStorage.getItem('testimonials_timestamp');
+
+        // If cached data exists and is less than 1 hour old, I use it
+        if (
+          cachedData &&
+          cacheTimestamp &&
+          Date.now() - Number(cacheTimestamp) < 3600000
+        ) {
+          setTestimonials(JSON.parse(cachedData));
+          setIsLoading(false);
+          return;
+        }
+
+        // If not I will Fetch fresh data
         const data = await fetchTestimonials();
+
         setTestimonials(data);
+
+        // And Cache the new data with timestamp
+        localStorage.setItem('testimonials', JSON.stringify(data));
+        localStorage.setItem('testimonials_timestamp', Date.now().toString());
       } catch (err) {
         setError('Failed to load testimonials');
         console.log(err);
