@@ -10,8 +10,8 @@ import ShareIcon from '@/public/icons/share.svg';
 
 export default function ExploreMore() {
   return (
-    <section className='w-full mb-20'>
-      <div className='flex flex-col md:flex-row max-h-[420px] md:justify-between'>
+    <section className='w-full'>
+      <div className='flex flex-col md:flex-row md:max-h-[420px] md:justify-between'>
         {/* Left Column - Guides */}
         <div className='md:w-[62%] px-4 mt-16 mb-5 md:mt-10 md:mb-0 md:px-12'>
           <motion.h2

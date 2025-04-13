@@ -67,6 +67,7 @@ const config: Config = {
         // md: '0.9375rem',
         xs: '0.75rem',
         xxs: '0.525rem',
+        '2.1xl': '1.625rem',
         // '2xs': '0.8rem',
         // xxs: '11px',
       },
@@ -77,6 +78,9 @@ const config: Config = {
       },
       letterSpacing: {
         '3': '3%',
+      },
+      spacing: {
+        '30': '7.5rem',
       },
       fontFamily: {
         'playfair-display': ['Playfair Display', 'serif'],
