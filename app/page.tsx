@@ -14,11 +14,17 @@ export default function Home() {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    const timer = setTimeout(() => {
-      setIsLoading(false);
-    }, 1000);
+    const isFirstVisit = sessionStorage.getItem('isFirstVisit');
 
-    return () => clearTimeout(timer);
+    if (isFirstVisit === null) {
+      const timer = setTimeout(() => {
+        setIsLoading(false);
+        sessionStorage.setItem('isFirstVisit', 'false');
+      }, 1000);
+      return () => clearTimeout(timer);
+    } else {
+      setIsLoading(false);
+    }
   }, []);
 
   if (isLoading) {
