@@ -6,7 +6,7 @@ export default function PaymentMethods() {
       <p className='text-dark-brown font-semibold mb-3'>Payment Methods</p>
       <div className='flex gap-4 items-center'>
         <Image
-          src='/icons/payment/visa.svg'
+          src='/icons/payment/visa-card.svg'
           alt='Visa'
           width={40}
           className='border py-1 px-1.5 border-border-brown rounded-md w-11 h-8'
@@ -20,7 +20,7 @@ export default function PaymentMethods() {
           height={25}
         />
         <Image
-          src='/icons/payment/amex.svg'
+          src='/icons/payment/amex-card.svg'
           alt='American Express'
           width={40}
           className='border py-1.5 px-1 border-border-brown rounded-md w-11 h-8'
