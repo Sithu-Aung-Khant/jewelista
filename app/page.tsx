@@ -1,4 +1,5 @@
 import Navbar from '@/components/global/navbar';
+import Footer from '@/components/sections/Footer';
 import ExploreMore from '@/components/sections/ExploreMore';
 import Hero from '@/components/sections/Hero';
 import Process from '@/components/sections/Process';
@@ -14,6 +15,7 @@ export default function Home() {
       <WhyChooseUs />
       <ExploreMore />
       <Testimonials />
+      <Footer />
     </main>
   );
 }

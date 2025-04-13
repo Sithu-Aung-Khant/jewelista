@@ -21,7 +21,7 @@ const config: Config = {
         'dark-brown': ' #434343',
         'light-brown': '#7A7A7A',
         'border-brown': '#E4E4E4',
-        'footer-brown': '#F8F8F8',
+        footer: '#F8F8F8',
         'bottom-blue': '#0D4269',
         card: {
           DEFAULT: 'hsl(var(--card))',
