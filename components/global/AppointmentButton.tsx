@@ -3,7 +3,7 @@ import CalendarIcon from '@/public/icons/calendar.svg';
 import Image from 'next/image';
 
 export const AppointmentButton = () => (
-  <button className='flex items-center gap-x-2 uppercase text-xxs md:text-xs hover:opacity-80 transition-opacity'>
+  <button className='flex items-center gap-x-2 uppercase text-xxs md:text-[10px] hover:opacity-80 transition-opacity'>
     <Image
       className='size-4'
       src={CalendarIcon}
