@@ -1,6 +1,6 @@
-import Image from 'next/image';
-import { motion } from 'framer-motion';
-import { Testimonial } from '../../lib/types';
+import Image from "next/image";
+import { motion } from "framer-motion";
+import { Testimonial } from "../../lib/types";
 
 interface TestimonialCardProps {
   testimonial: Testimonial;
@@ -27,7 +27,7 @@ export function TestimonialCard({
     >
       <div className='size-30 mx-auto mb-4 relative overflow-hidden'>
         <Image
-          src={testimonial.image}
+          src={`/images/customers/${testimonial.id}.${testimonial.imageType}`}
           alt={`${testimonial.name}`}
           fill
           unoptimized

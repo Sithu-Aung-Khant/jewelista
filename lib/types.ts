@@ -1,9 +1,10 @@
 export type Testimonial = {
   id: number;
-  image: string;
+  image?: string;
   name: string;
   position: string;
   description: string;
+  imageType?: string;
 };
 
 export type RandomUser = {
