@@ -1,17 +1,22 @@
-"use client";
+'use client';
 
-import { products } from "@/lib/products";
-import Image from "next/image";
-import { notFound } from "next/navigation";
-import { useState } from "react";
-import { motion } from "framer-motion";
-import { Button } from "@/components/ui/button";
-import { ShoppingCart } from "lucide-react";
-import { ProductDetailsNavbar } from "@/components/global/ProductDetailsNavbar";
+import { products } from '@/lib/products';
+import Image from 'next/image';
+import { notFound } from 'next/navigation';
+import { useState } from 'react';
+import { motion } from 'framer-motion';
+import { Button } from '@/components/ui/button';
+import { ShoppingCart } from 'lucide-react';
+import { ProductDetailsNavbar } from '@/components/global/ProductDetailsNavbar';
+import { useShoppingCart } from '@/context/ShoppingCartContext';
+import { toast } from 'sonner';
 
 export default function ProductPage({ params }: { params: { id: string } }) {
+  // const router = useRouter();
+  const { addToCart } = useShoppingCart();
   const product = products.find((p) => p.id === parseInt(params.id));
   const [quantity, setQuantity] = useState(1);
+  const [isAdding, setIsAdding] = useState(false);
 
   if (!product) {
     notFound();
@@ -24,8 +29,19 @@ export default function ProductPage({ params }: { params: { id: string } }) {
   };
 
   const handleAddToCart = () => {
-    // TODO: Implement cart functionality
-    console.log(`Added ${quantity} of ${product.name} to cart`);
+    setIsAdding(true);
+    try {
+      addToCart(product.id, quantity);
+      toast.success('Added to cart successfully!', {
+        description: `${quantity} x ${product.name} added to your cart`,
+      });
+    } catch (error) {
+      toast.error('Failed to add to cart', {
+        description: 'Please try again',
+      });
+    } finally {
+      setIsAdding(false);
+    }
   };
 
   return (
@@ -74,15 +90,15 @@ export default function ProductPage({ params }: { params: { id: string } }) {
               <p className='text-gray-600'>{product.description}</p>
               <div className='space-y-2'>
                 <p className='text-sm text-gray-600'>
-                  Category:{" "}
+                  Category:{' '}
                   <span className='font-medium'>{product.category}</span>
                 </p>
                 <p className='text-sm text-gray-600'>
-                  Material:{" "}
+                  Material:{' '}
                   <span className='font-medium'>{product.material}</span>
                 </p>
                 <p className='text-sm text-gray-600'>
-                  Stock:{" "}
+                  Stock:{' '}
                   <span className='font-medium'>{product.stock} available</span>
                 </p>
               </div>
@@ -94,7 +110,8 @@ export default function ProductPage({ params }: { params: { id: string } }) {
               <div className='flex items-center border border-gray-300 rounded'>
                 <button
                   onClick={() => handleQuantityChange(quantity - 1)}
-                  className='px-3 py-1 border-r border-gray-300 hover:bg-gray-100'
+                  className='px-3 py-1 border-r border-gray-300 hover:bg-gray-100 disabled:opacity-50'
+                  disabled={quantity <= 1}
                   aria-label='Decrease quantity'
                 >
                   -
@@ -102,7 +119,8 @@ export default function ProductPage({ params }: { params: { id: string } }) {
                 <span className='px-4 py-1'>{quantity}</span>
                 <button
                   onClick={() => handleQuantityChange(quantity + 1)}
-                  className='px-3 py-1 border-l border-gray-300 hover:bg-gray-100'
+                  className='px-3 py-1 border-l border-gray-300 hover:bg-gray-100 disabled:opacity-50'
+                  disabled={quantity >= product.stock}
                   aria-label='Increase quantity'
                 >
                   +
@@ -113,10 +131,17 @@ export default function ProductPage({ params }: { params: { id: string } }) {
             {/* Add to Cart Button */}
             <Button
               onClick={handleAddToCart}
-              className='w-full bg-dark-brown hover:bg-dark-brown/90 text-white py-3 rounded-md flex items-center justify-center space-x-2'
+              disabled={isAdding || product.stock === 0}
+              className='w-full bg-dark-brown hover:bg-dark-brown/90 text-white py-3 rounded-md flex items-center justify-center space-x-2 disabled:opacity-50'
             >
               <ShoppingCart className='w-5 h-5' />
-              <span>Add to Cart</span>
+              <span>
+                {isAdding
+                  ? 'Adding...'
+                  : product.stock === 0
+                  ? 'Out of Stock'
+                  : 'Add to Cart'}
+              </span>
             </Button>
 
             {/* Tags */}

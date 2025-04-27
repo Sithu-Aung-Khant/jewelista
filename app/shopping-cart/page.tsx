@@ -1,22 +1,22 @@
-"use client";
+'use client';
 
-import { useState } from "react";
-import Image from "next/image";
-import { motion } from "framer-motion";
-import { Trash2, CreditCard, Wallet } from "lucide-react";
-import { useShoppingCart } from "@/context/ShippingCardContext";
-import { products } from "@/lib/products";
-import { Button } from "@/components/ui/button";
+import { useState } from 'react';
+import Image from 'next/image';
+import { motion } from 'framer-motion';
+import { Trash2, CreditCard, Wallet } from 'lucide-react';
+import { useShoppingCart } from '@/context/ShoppingCartContext';
+import { products } from '@/lib/products';
+import { Button } from '@/components/ui/button';
 
 const paymentMethods = [
   {
-    id: "credit-card",
-    name: "Credit Card",
+    id: 'credit-card',
+    name: 'Credit Card',
     icon: CreditCard,
   },
   {
-    id: "paypal",
-    name: "PayPal",
+    id: 'paypal',
+    name: 'PayPal',
     icon: Wallet,
   },
 ];
@@ -33,7 +33,7 @@ export default function ShoppingCartPage() {
 
   const handleCheckout = async () => {
     // TODO: Implement checkout logic based on selected payment method
-    console.log("Checking out with:", selectedPayment);
+    console.log('Checking out with:', selectedPayment);
   };
 
   if (cartItems.length === 0) {

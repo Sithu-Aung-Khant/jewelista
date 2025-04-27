@@ -2,7 +2,8 @@ import type { Metadata } from 'next';
 // import localFont from "next/font/local";
 import { DM_Sans, Playfair_Display } from 'next/font/google';
 import './globals.css';
-import { ShoppingCartProvider } from '@/context/ShippingCardContext';
+import { ShoppingCartProvider } from '@/context/ShoppingCartContext';
+import { Toaster } from 'sonner';
 
 const dmSans = DM_Sans({
   subsets: ['latin'],
@@ -32,6 +33,7 @@ export default function RootLayout({
         className={`${dmSans.variable} ${playfairDisplay.variable} antialiased bg-white text-dark-brown`}
       >
         <ShoppingCartProvider>
+          <Toaster position='top-center' />
           <main>{children}</main>
         </ShoppingCartProvider>
       </body>

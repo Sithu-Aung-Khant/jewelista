@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import {
   createContext,
@@ -6,8 +6,8 @@ import {
   useState,
   useEffect,
   ReactNode,
-} from "react";
-import { products } from "@/lib/products";
+} from 'react';
+import { products } from '@/lib/products';
 
 interface CartItem {
   id: number;
@@ -29,7 +29,7 @@ export function useShoppingCart() {
   const context = useContext(ShoppingCartContext);
   if (!context) {
     throw new Error(
-      "useShoppingCart must be used within a ShoppingCartProvider"
+      'useShoppingCart must be used within a ShoppingCartProvider'
     );
   }
   return context;
@@ -40,7 +40,7 @@ export function ShoppingCartProvider({ children }: { children: ReactNode }) {
 
   // Load cart from localStorage on mount
   useEffect(() => {
-    const savedCart = localStorage.getItem("cart");
+    const savedCart = localStorage.getItem('cart');
     if (savedCart) {
       setCartItems(JSON.parse(savedCart));
     }
@@ -48,7 +48,7 @@ export function ShoppingCartProvider({ children }: { children: ReactNode }) {
 
   // Save cart to localStorage whenever it changes
   useEffect(() => {
-    localStorage.setItem("cart", JSON.stringify(cartItems));
+    localStorage.setItem('cart', JSON.stringify(cartItems));
   }, [cartItems]);
 
   const addToCart = (id: number, quantity: number) => {
@@ -70,6 +70,10 @@ export function ShoppingCartProvider({ children }: { children: ReactNode }) {
   };
 
   const updateQuantity = (id: number, quantity: number) => {
+    if (quantity < 1) {
+      removeFromCart(id);
+      return;
+    }
     setCartItems((curr) =>
       curr.map((item) => (item.id === id ? { ...item, quantity } : item))
     );
