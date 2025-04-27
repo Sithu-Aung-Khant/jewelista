@@ -27,7 +27,7 @@ export function TestimonialCard({
     >
       <div className='size-30 mx-auto mb-4 relative overflow-hidden'>
         <Image
-          src={`/images/customers/${testimonial.id}.${testimonial.imageType}`}
+          src={testimonial.image}
           alt={`${testimonial.name}`}
           fill
           unoptimized

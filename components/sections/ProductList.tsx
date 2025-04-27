@@ -8,12 +8,12 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from "@/components/ui/carousel";
-import { testimonials } from "@/lib/testimonials";
+import { products } from "@/lib/products";
 import { useMediaQuery } from "@react-hook/media-query";
 import { motion } from "framer-motion";
 import { TestimonialCard } from "./TestimonialCard";
 
-export default function Testimonials() {
+export default function ProductList() {
   const isMobile = useMediaQuery("(max-width: 768px)");
 
   return (
@@ -26,14 +26,14 @@ export default function Testimonials() {
           viewport={{ once: true }}
           transition={{ duration: 0.5 }}
         >
-          Testimonials
+          Featured Products
         </motion.h2>
         <Carousel opts={{ align: "start" }} className='w-full relative'>
           <CarouselContent>
-            {testimonials.map((testimonial, index) => (
-              <CarouselItem key={testimonial.id} className='md:basis-1/4'>
+            {products.map((product, index) => (
+              <CarouselItem key={product.id} className='md:basis-1/4'>
                 <TestimonialCard
-                  testimonial={testimonial}
+                  testimonial={product}
                   index={index}
                   isMobile={isMobile}
                 />

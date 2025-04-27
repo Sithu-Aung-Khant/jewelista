@@ -1,4 +1,4 @@
-'use client';
+"use client";
 
 import {
   Carousel,
@@ -7,56 +7,14 @@ import {
   CarouselItem,
   CarouselNext,
   CarouselPrevious,
-} from '@/components/ui/carousel';
-import { useMediaQuery } from '@react-hook/media-query';
-import { motion } from 'framer-motion';
-import { useEffect, useState } from 'react';
-import { fetchTestimonials } from '../../lib/service';
-import { TestimonialCard } from './TestimonialCard';
-import { Testimonial } from '../../lib/types';
+} from "@/components/ui/carousel";
+import { testimonials } from "@/lib/testimonials";
+import { useMediaQuery } from "@react-hook/media-query";
+import { motion } from "framer-motion";
+import { TestimonialCard } from "./TestimonialCard";
 
 export default function Testimonials() {
-  const isMobile = useMediaQuery('(max-width: 768px)');
-  const [testimonials, setTestimonials] = useState<Testimonial[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState('');
-
-  useEffect(() => {
-    const loadTestimonials = async () => {
-      try {
-        // Check for cached data
-        const cachedData = localStorage.getItem('testimonials');
-        const cacheTimestamp = localStorage.getItem('testimonials_timestamp');
-
-        // If cached data exists and is less than 1 hour old, I use it
-        if (
-          cachedData &&
-          cacheTimestamp &&
-          Date.now() - Number(cacheTimestamp) < 3600000
-        ) {
-          setTestimonials(JSON.parse(cachedData));
-          setIsLoading(false);
-          return;
-        }
-
-        // If not I will Fetch fresh data
-        const data = await fetchTestimonials();
-
-        setTestimonials(data);
-
-        // And Cache the new data with timestamp
-        localStorage.setItem('testimonials', JSON.stringify(data));
-        localStorage.setItem('testimonials_timestamp', Date.now().toString());
-      } catch (err) {
-        setError('Failed to load testimonials');
-        console.log(err);
-      } finally {
-        setIsLoading(false);
-      }
-    };
-
-    loadTestimonials();
-  }, []);
+  const isMobile = useMediaQuery("(max-width: 768px)");
 
   return (
     <section className='w-full py-16 px-10 md:px-8'>
@@ -70,30 +28,22 @@ export default function Testimonials() {
         >
           Testimonials
         </motion.h2>
-        {isLoading ? (
-          <div className='flex justify-center items-center h-40'>
-            <div className='animate-spin rounded-full h-8 w-8 border-b-2 border-deep-blue'></div>
-          </div>
-        ) : error ? (
-          <div className='text-center text-red-500'>{error}</div>
-        ) : (
-          <Carousel opts={{ align: 'start' }} className='w-full relative'>
-            <CarouselContent>
-              {testimonials.map((testimonial, index) => (
-                <CarouselItem key={testimonial.id} className='md:basis-1/4'>
-                  <TestimonialCard
-                    testimonial={testimonial}
-                    index={index}
-                    isMobile={isMobile}
-                  />
-                </CarouselItem>
-              ))}
-            </CarouselContent>
-            <CarouselPrevious className='absolute left-0 top-1/2 -translate-y-1/2 -translate-x-1/2' />
-            <CarouselNext className='absolute right-0 top-1/2 -translate-y-1/2 translate-x-1/2' />
-            <CarouselDots className='mt-5' />
-          </Carousel>
-        )}
+        <Carousel opts={{ align: "start" }} className='w-full relative'>
+          <CarouselContent>
+            {testimonials.map((testimonial, index) => (
+              <CarouselItem key={testimonial.id} className='md:basis-1/4'>
+                <TestimonialCard
+                  testimonial={testimonial}
+                  index={index}
+                  isMobile={isMobile}
+                />
+              </CarouselItem>
+            ))}
+          </CarouselContent>
+          <CarouselPrevious className='absolute left-0 top-1/2 -translate-y-1/2 -translate-x-1/2' />
+          <CarouselNext className='absolute right-0 top-1/2 -translate-y-1/2 translate-x-1/2' />
+          <CarouselDots className='mt-5' />
+        </Carousel>
       </div>
     </section>
   );
