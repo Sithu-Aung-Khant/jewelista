@@ -11,7 +11,7 @@ import {
 import { products } from "@/lib/products";
 import { useMediaQuery } from "@react-hook/media-query";
 import { motion } from "framer-motion";
-import { TestimonialCard } from "./TestimonialCard";
+import { ProductCard } from "../global/ProductCard";
 
 export default function ProductList() {
   const isMobile = useMediaQuery("(max-width: 768px)");
@@ -20,7 +20,7 @@ export default function ProductList() {
     <section className='w-full py-16 px-10 md:px-8'>
       <div className='max-w-7xl mx-auto'>
         <motion.h2
-          className='text-2.1xl mb-5 text-center font-playfair-display'
+          className='text-3xl mb-10 text-center font-playfair-display'
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
@@ -32,8 +32,8 @@ export default function ProductList() {
           <CarouselContent>
             {products.map((product, index) => (
               <CarouselItem key={product.id} className='md:basis-1/4'>
-                <TestimonialCard
-                  testimonial={product}
+                <ProductCard
+                  product={product}
                   index={index}
                   isMobile={isMobile}
                 />
@@ -42,7 +42,7 @@ export default function ProductList() {
           </CarouselContent>
           <CarouselPrevious className='absolute left-0 top-1/2 -translate-y-1/2 -translate-x-1/2' />
           <CarouselNext className='absolute right-0 top-1/2 -translate-y-1/2 translate-x-1/2' />
-          <CarouselDots className='mt-5' />
+          <CarouselDots className='mt-10' />
         </Carousel>
       </div>
     </section>

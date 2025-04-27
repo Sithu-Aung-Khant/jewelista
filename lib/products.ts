@@ -1,16 +1,16 @@
 export const products = [
   {
     id: 1,
-    image: "/products/pexels-tima-miroshnichenko-6263153.jpg",
-    name: "Diamond Elegance Ring",
+    image: "/products/pexels-the-glorious-studio-3584518-10976653.jpg",
+    name: "Luxury Diamond Ring",
     description:
-      "Absolutely breathtaking! The craftsmanship of my diamond ring.",
-    price: 1200,
-    category: "Rings",
+      "Every detail, from the sparkle of the diamonds to the elegant packaging.",
+    price: 3200,
+    category: "Bracelets",
     material: "Gold",
-    rating: 4.8,
-    stock: 10,
-    tags: ["diamond", "gold", "elegant"],
+    rating: 4.9,
+    stock: 2,
+    tags: ["gold", "luxury", "bracelet"],
   },
   {
     id: 2,
@@ -28,7 +28,7 @@ export const products = [
   {
     id: 3,
     image: "/products/pexels-dauphotographer-30852235.jpg",
-    name: "Sparkling Diamond Earrings",
+    name: "Sparkling Diamond Bracelet",
     description:
       "Every detail, from the sparkle of the diamonds to the elegant packaging.",
     price: 1800,
@@ -180,18 +180,5 @@ export const products = [
     rating: 4.7,
     stock: 6,
     tags: ["diamond", "platinum", "elegant"],
-  },
-  {
-    id: 15,
-    image: "/products/pexels-the-glorious-studio-3584518-10976653.jpg",
-    name: "Luxury Gold Bracelet",
-    description:
-      "Every detail, from the sparkle of the diamonds to the elegant packaging.",
-    price: 3200,
-    category: "Bracelets",
-    material: "Gold",
-    rating: 4.9,
-    stock: 2,
-    tags: ["gold", "luxury", "bracelet"],
   },
 ];
