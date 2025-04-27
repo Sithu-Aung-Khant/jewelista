@@ -20,7 +20,7 @@ export default function ProductList() {
     <section className='w-full py-16 px-10 md:px-8'>
       <div className='max-w-7xl mx-auto'>
         <motion.h2
-          className='text-3xl mb-10 text-center font-playfair-display'
+          className='text-4xl mb-10 text-center font-playfair-display'
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}

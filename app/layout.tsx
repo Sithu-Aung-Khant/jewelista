@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 // import localFont from "next/font/local";
 import { DM_Sans, Playfair_Display } from 'next/font/google';
 import './globals.css';
+import { ShoppingCartProvider } from '@/context/ShippingCardContext';
 
 const dmSans = DM_Sans({
   subsets: ['latin'],
@@ -30,7 +31,9 @@ export default function RootLayout({
       <body
         className={`${dmSans.variable} ${playfairDisplay.variable} antialiased bg-white text-dark-brown`}
       >
-        {children}
+        <ShoppingCartProvider>
+          <main>{children}</main>
+        </ShoppingCartProvider>
       </body>
     </html>
   );
