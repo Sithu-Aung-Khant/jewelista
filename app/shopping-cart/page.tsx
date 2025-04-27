@@ -7,6 +7,7 @@ import { Trash2, CreditCard, Wallet } from 'lucide-react';
 import { useShoppingCart } from '@/context/ShoppingCartContext';
 import { products } from '@/lib/products';
 import { Button } from '@/components/ui/button';
+import { useRouter } from 'next/navigation';
 
 const paymentMethods = [
   {
@@ -25,6 +26,7 @@ export default function ShoppingCartPage() {
   const { cartItems, removeFromCart, updateQuantity, getCartTotal } =
     useShoppingCart();
   const [selectedPayment, setSelectedPayment] = useState(paymentMethods[0].id);
+  const router = useRouter();
 
   const cartProducts = cartItems.map((item) => ({
     ...item,
@@ -32,8 +34,9 @@ export default function ShoppingCartPage() {
   }));
 
   const handleCheckout = async () => {
-    // TODO: Implement checkout logic based on selected payment method
-    console.log('Checking out with:', selectedPayment);
+    // For demo purposes, we'll just navigate to the checkout page
+    // and pass the selected payment method in the URL
+    router.push(`/checkout?payment=${selectedPayment}`);
   };
 
   if (cartItems.length === 0) {
