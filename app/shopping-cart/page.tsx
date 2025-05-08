@@ -8,17 +8,25 @@ import { useShoppingCart } from '@/context/ShoppingCartContext';
 import { products } from '@/lib/products';
 import { Button } from '@/components/ui/button';
 import { useRouter } from 'next/navigation';
+import cbpay from '@/public/payment/cb.jpeg';
+import ayapay from '@/public/payment/aya.jpeg';
+import kbzpay from '@/public/payment/kbz.png';
 
 const paymentMethods = [
   {
-    id: 'credit-card',
-    name: 'Credit Card',
-    icon: CreditCard,
+    id: 'kbz-pay',
+    name: 'KBZ Pay',
+    image: kbzpay,
   },
   {
-    id: 'paypal',
-    name: 'PayPal',
-    icon: Wallet,
+    id: 'cb-pay',
+    name: 'CB Pay',
+    image: cbpay,
+  },
+  {
+    id: 'aya-pay',
+    name: 'AYA Pay',
+    image: ayapay,
   },
 ];
 
@@ -130,21 +138,29 @@ export default function ShoppingCartPage() {
                 Payment Method
               </h3>
               <div className='space-y-2'>
-                {paymentMethods.map(({ id, name, icon: Icon }) => (
+                {paymentMethods.map((method) => (
                   <label
-                    key={id}
+                    key={method.id}
                     className='flex items-center gap-3 p-3 border rounded-lg cursor-pointer'
                   >
                     <input
                       type='radio'
                       name='payment'
-                      value={id}
-                      checked={selectedPayment === id}
+                      value={method.id}
+                      checked={selectedPayment === method.id}
                       onChange={(e) => setSelectedPayment(e.target.value)}
                       className='text-dark-brown'
                     />
-                    <Icon className='w-5 h-5' />
-                    <span>{name}</span>
+                    <div className='flex justify-between w-full'>
+                      <span>{method.name}</span>
+                      <Image
+                        width={50}
+                        height={50}
+                        src={method.image}
+                        alt={method.name}
+                        className='w-5 h-5'
+                      />
+                    </div>
                   </label>
                 ))}
               </div>
