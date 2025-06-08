@@ -1,4 +1,14 @@
-const useShoppingCart = () => {
+import { useState } from 'react';
+
+const CART_STORAGE_KEY = 'cart_items';
+import { products } from '@/lib/products';
+
+interface CartItem {
+  id: number;
+  quantity: number;
+}
+
+export const useShoppingCart = () => {
   const [cartItems, setCartItems] = useState<CartItem[]>(() => {
     const storedCart = localStorage.getItem(CART_STORAGE_KEY);
     return storedCart ? JSON.parse(storedCart) : [];
@@ -64,4 +74,4 @@ const useShoppingCart = () => {
     clearCart,
     getCartTotal,
   };
-}; 
+};

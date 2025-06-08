@@ -1,16 +1,16 @@
 'use client';
 
-import { useState } from 'react';
-import Image from 'next/image';
-import { motion } from 'framer-motion';
-import { Trash2, CreditCard, Wallet } from 'lucide-react';
+import { Button } from '@/components/ui/button';
 import { useShoppingCart } from '@/context/ShoppingCartContext';
 import { products } from '@/lib/products';
-import { Button } from '@/components/ui/button';
-import { useRouter } from 'next/navigation';
-import cbpay from '@/public/payment/cb.jpeg';
 import ayapay from '@/public/payment/aya.jpeg';
+import cbpay from '@/public/payment/cb.jpeg';
 import kbzpay from '@/public/payment/kbz.png';
+import { motion } from 'framer-motion';
+import { Trash2 } from 'lucide-react';
+import Image from 'next/image';
+import { useRouter } from 'next/navigation';
+import { useState } from 'react';
 
 const paymentMethods = [
   {
@@ -114,6 +114,7 @@ export default function ShoppingCartPage() {
                   </div>
 
                   <button
+                    title='Remove from cart'
                     onClick={() => removeFromCart(product.id)}
                     className='text-red-500 hover:text-red-600'
                   >

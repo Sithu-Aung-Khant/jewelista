@@ -36,6 +36,7 @@ export default function ProductPage({ params }: { params: { id: string } }) {
         description: `${quantity} x ${product.name} added to your cart`,
       });
     } catch (error) {
+      console.log(error);
       toast.error('Failed to add to cart', {
         description: 'Please try again',
       });
