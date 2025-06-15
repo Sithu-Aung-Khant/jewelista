@@ -46,6 +46,9 @@ export default function CheckoutPage() {
   const [selectedPaymentMethod, setSelectedPaymentMethod] = useState<
     string | null
   >(null);
+  const [promoCode, setPromoCode] = useState('');
+  const [isPromoValid, setIsPromoValid] = useState(false);
+  const [promoError, setPromoError] = useState('');
 
   const validateForm = () => {
     const errors: Record<string, string> = {};
@@ -136,6 +139,26 @@ export default function CheckoutPage() {
     toast.success('Payment Completed', {
       description: 'You can now proceed to complete your order.',
     });
+  };
+
+  const calculateDiscount = () => {
+    if (isPromoValid && promoCode === 'WELCOME10') {
+      return getCartTotal() * 0.1; // 10% discount
+    }
+    return 0;
+  };
+
+  const handlePromoSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (promoCode === 'WELCOME10') {
+      setIsPromoValid(true);
+      setPromoError('');
+      toast.success('Promo code applied successfully!');
+    } else {
+      setIsPromoValid(false);
+      setPromoError('Invalid promo code');
+      toast.error('Invalid promo code');
+    }
   };
 
   const cartProducts = cartItems.map((item) => ({
@@ -284,6 +307,46 @@ export default function CheckoutPage() {
                     )}
                   </div>
                 </div>
+
+                {/* Add Promo Code Input */}
+                <div className='mt-4'>
+                  <form onSubmit={handlePromoSubmit}>
+                    <div className='space-y-2'>
+                      <label
+                        htmlFor='promoCode'
+                        className='text-sm font-medium text-gray-700'
+                      >
+                        Promo Code
+                      </label>
+                      <div className='flex gap-2'>
+                        <input
+                          type='text'
+                          id='promoCode'
+                          value={promoCode}
+                          onChange={(e) => setPromoCode(e.target.value)}
+                          placeholder='Enter promo code'
+                          className='flex-1 px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-dark-brown border-gray-300'
+                        />
+                        <Button
+                          type='submit'
+                          className='bg-dark-brown hover:bg-dark-brown/90 text-white'
+                        >
+                          Apply
+                        </Button>
+                      </div>
+                      {promoError && (
+                        <p className='text-sm text-red-500 mt-1'>
+                          {promoError}
+                        </p>
+                      )}
+                      {isPromoValid && (
+                        <p className='text-sm text-green-600 mt-1'>
+                          Promo code applied successfully!
+                        </p>
+                      )}
+                    </div>
+                  </form>
+                </div>
               </form>
             </div>
           </div>
@@ -294,6 +357,7 @@ export default function CheckoutPage() {
               <h2 className='text-xl font-playfair-display text-dark-brown mb-4'>
                 Order Summary
               </h2>
+
               <div className='space-y-4'>
                 {cartProducts.map((item) => (
                   <div key={item.id} className='flex justify-between text-sm'>
@@ -311,6 +375,21 @@ export default function CheckoutPage() {
                     <span>Subtotal</span>
                     <span>${getCartTotal().toLocaleString()}</span>
                   </div>
+
+                  {isPromoValid && (
+                    <div className='flex justify-between text-sm text-green-600 mt-2'>
+                      <span>Discount (10%)</span>
+                      <span>-${calculateDiscount().toLocaleString()}</span>
+                    </div>
+                  )}
+
+                  <div className='flex justify-between font-medium mt-2'>
+                    <span>Total</span>
+                    <span>
+                      ${(getCartTotal() - calculateDiscount()).toLocaleString()}
+                    </span>
+                  </div>
+
                   <div className='flex justify-between text-sm text-gray-600 mt-2'>
                     <span>Payment Method</span>
                     <span className='capitalize'>
