@@ -35,6 +35,10 @@ export default function CheckoutPage() {
     postalCode: '',
     country: '',
   });
+  const [paymentStatus, setPaymentStatus] = useState<'pending' | 'completed'>(
+    'pending'
+  );
+  console.log(paymentStatus);
 
   const handleInputChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -239,22 +243,35 @@ export default function CheckoutPage() {
               </AlertDialogTrigger>
               <AlertDialogContent>
                 <AlertDialogHeader>
-                  <AlertDialogTitle></AlertDialogTitle>
+                  <AlertDialogTitle>Payment QR Code</AlertDialogTitle>
                   <AlertDialogDescription>
-                    <div className='bg-white rounded-lg border border-border-brown'>
+                    <div className='bg-white rounded-lg border border-border-brown p-4'>
                       <Image
                         src='/scan/kbz.jpg'
-                        alt='Payment Methods'
+                        alt='Payment QR Code'
                         width={300}
                         height={300}
                         className='w-full rounded-lg'
                       />
+                      <p className='mt-4 text-sm text-gray-600 text-center'>
+                        Scan this QR code with your mobile banking app to
+                        complete the payment
+                      </p>
                     </div>
                   </AlertDialogDescription>
                 </AlertDialogHeader>
                 <AlertDialogFooter>
                   <AlertDialogCancel>Close</AlertDialogCancel>
-                  <AlertDialogAction>Done</AlertDialogAction>
+                  <AlertDialogAction
+                    onClick={() => {
+                      setPaymentStatus('completed');
+                      handleSubmit({
+                        preventDefault: () => {},
+                      } as React.FormEvent);
+                    }}
+                  >
+                    I&apos;ve Completed the Payment
+                  </AlertDialogAction>
                 </AlertDialogFooter>
               </AlertDialogContent>
             </AlertDialog>
