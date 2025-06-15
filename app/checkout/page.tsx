@@ -5,7 +5,7 @@ import { useRouter, useSearchParams } from 'next/navigation';
 import { motion } from 'framer-motion';
 import { useShoppingCart } from '@/context/ShoppingCartContext';
 import { Button } from '@/components/ui/button';
-import { Loader2 } from 'lucide-react';
+import { Loader2, X } from 'lucide-react';
 import { products } from '@/lib/products';
 import { Textarea } from '@/components/ui/textarea';
 import Image from 'next/image';
@@ -20,6 +20,9 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from '@/components/ui/alert-dialog';
+import ayapay from '@/public/payment/aya.jpeg';
+import cbpay from '@/public/payment/cb.jpeg';
+import kbzpay from '@/public/payment/kbz.png';
 
 export default function CheckoutPage() {
   const router = useRouter();
@@ -235,46 +238,152 @@ export default function CheckoutPage() {
               </div>
             </div>
 
-            <AlertDialog>
-              <AlertDialogTrigger>
-                <Button className='w-full bg-dark-brown hover:bg-dark-brown/90 text-white'>
-                  Scan QR Code to Pay
-                </Button>
-              </AlertDialogTrigger>
-              <AlertDialogContent>
-                <AlertDialogHeader>
-                  <AlertDialogTitle>Payment QR Code</AlertDialogTitle>
+            <h2 className='text-xl font-playfair-display text-dark-brown mb-4'>
+              Payment Method
+            </h2>
+
+            <div className='flex flex-wrap gap-4'>
+              {/* KBZ Pay */}
+              <AlertDialog>
+                <AlertDialogTrigger asChild>
+                  <Image
+                    src={kbzpay}
+                    alt='KBZ Pay'
+                    width={80}
+                    height={80}
+                    className='w-14 border hover:cursor-pointer hover:bg-gray-200 border-border-brown h-auto rounded-lg'
+                  />
+                </AlertDialogTrigger>
+                <AlertDialogContent>
+                  <AlertDialogHeader className='flex flex-row justify-between items-center'>
+                    <AlertDialogTitle>KBZ Pay QR Code</AlertDialogTitle>
+                    <AlertDialogCancel className='p-2 border hover:bg-gray-200 border-gray-50'>
+                      <X className='h-5 w-5' />
+                    </AlertDialogCancel>
+                  </AlertDialogHeader>
                   <AlertDialogDescription>
-                    <div className='bg-white rounded-lg border border-border-brown p-4'>
+                    <div className='bg-white rounded-lg border border-gray-100  p-4'>
                       <Image
                         src='/scan/kbz.jpg'
-                        alt='Payment QR Code'
+                        alt='KBZ Pay QR Code'
                         width={300}
                         height={300}
                         className='w-full rounded-lg'
                       />
                       <p className='mt-4 text-sm text-gray-600 text-center'>
-                        Scan this QR code with your mobile banking app to
-                        complete the payment
+                        Scan this QR code with KBZ Pay to complete the payment
                       </p>
                     </div>
                   </AlertDialogDescription>
-                </AlertDialogHeader>
-                <AlertDialogFooter>
-                  <AlertDialogCancel>Close</AlertDialogCancel>
-                  <AlertDialogAction
-                    onClick={() => {
-                      setPaymentStatus('completed');
-                      handleSubmit({
-                        preventDefault: () => {},
-                      } as React.FormEvent);
-                    }}
-                  >
-                    I&apos;ve Completed the Payment
-                  </AlertDialogAction>
-                </AlertDialogFooter>
-              </AlertDialogContent>
-            </AlertDialog>
+                  <AlertDialogFooter>
+                    <AlertDialogAction
+                      onClick={() => {
+                        setPaymentStatus('completed');
+                        handleSubmit({
+                          preventDefault: () => {},
+                        } as React.FormEvent);
+                      }}
+                    >
+                      I&apos;ve Completed the Payment
+                    </AlertDialogAction>
+                  </AlertDialogFooter>
+                </AlertDialogContent>
+              </AlertDialog>
+
+              {/* CB Pay */}
+              <AlertDialog>
+                <AlertDialogTrigger asChild>
+                  <Image
+                    src={cbpay}
+                    alt='CB Pay'
+                    width={80}
+                    height={80}
+                    className='w-14 border hover:cursor-pointer hover:bg-gray-200 border-border-brown h-auto rounded-lg'
+                  />
+                </AlertDialogTrigger>
+                <AlertDialogContent className='max-w-md'>
+                  <AlertDialogHeader className='flex flex-row justify-between items-center'>
+                    <AlertDialogTitle>CB Pay QR Code</AlertDialogTitle>
+                    <AlertDialogCancel className='p-2 border hover:bg-gray-200 border-gray-50'>
+                      <X className='h-5 w-5' />
+                    </AlertDialogCancel>
+                  </AlertDialogHeader>
+                  <AlertDialogDescription className='w-[80%'>
+                    <div className='bg-white  rounded-lg border border-border-brown p-4 '>
+                      <Image
+                        src='/scan/cb-copy.jpg'
+                        alt='CB Pay QR Code'
+                        width={300}
+                        height={300}
+                        className='rounded-lg w-full'
+                      />
+                      <p className='text-sm mt-4 text-gray-600 text-center'>
+                        Scan this QR code with CB Pay to complete the payment
+                      </p>
+                    </div>
+                  </AlertDialogDescription>
+                  <AlertDialogFooter>
+                    <AlertDialogAction
+                      onClick={() => {
+                        setPaymentStatus('completed');
+                        handleSubmit({
+                          preventDefault: () => {},
+                        } as React.FormEvent);
+                      }}
+                    >
+                      I&apos;ve Completed the Payment
+                    </AlertDialogAction>
+                  </AlertDialogFooter>
+                </AlertDialogContent>
+              </AlertDialog>
+
+              {/* AYA Pay */}
+              <AlertDialog>
+                <AlertDialogTrigger asChild>
+                  <Image
+                    src={ayapay}
+                    alt='AYA Pay'
+                    width={80}
+                    height={80}
+                    className='w-14 border hover:cursor-pointer hover:bg-gray-200 border-border-brown h-auto rounded-lg'
+                  />
+                </AlertDialogTrigger>
+                <AlertDialogContent className='max-w-md'>
+                  <AlertDialogHeader className='flex flex-row justify-between items-center'>
+                    <AlertDialogTitle>AYA Pay QR Code</AlertDialogTitle>
+                    <AlertDialogCancel className='p-2 border hover:bg-gray-200 border-gray-50'>
+                      <X className='h-5 w-5' />
+                    </AlertDialogCancel>
+                  </AlertDialogHeader>
+                  <AlertDialogDescription>
+                    <div className='bg-white rounded-lg border border-border-brown p-4'>
+                      <Image
+                        src='/scan/aya-copy.jpg'
+                        alt='AYA Pay QR Code'
+                        width={300}
+                        height={300}
+                        className='w-full rounded-lg'
+                      />
+                      <p className='mt-4 text-sm text-gray-600 text-center'>
+                        Scan this QR code with AYA Pay to complete the payment
+                      </p>
+                    </div>
+                  </AlertDialogDescription>
+                  <AlertDialogFooter>
+                    <AlertDialogAction
+                      onClick={() => {
+                        setPaymentStatus('completed');
+                        handleSubmit({
+                          preventDefault: () => {},
+                        } as React.FormEvent);
+                      }}
+                    >
+                      I&apos;ve Completed the Payment
+                    </AlertDialogAction>
+                  </AlertDialogFooter>
+                </AlertDialogContent>
+              </AlertDialog>
+            </div>
 
             <Button
               onClick={handleSubmit}

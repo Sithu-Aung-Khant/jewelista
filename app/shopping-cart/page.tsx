@@ -3,37 +3,14 @@
 import { Button } from '@/components/ui/button';
 import { useShoppingCart } from '@/context/ShoppingCartContext';
 import { products } from '@/lib/products';
-import ayapay from '@/public/payment/aya.jpeg';
-import cbpay from '@/public/payment/cb.jpeg';
-import kbzpay from '@/public/payment/kbz.png';
 import { motion } from 'framer-motion';
 import { Trash2 } from 'lucide-react';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
-import { useState } from 'react';
-
-const paymentMethods = [
-  {
-    id: 'kbz-pay',
-    name: 'KBZ Pay',
-    image: kbzpay,
-  },
-  {
-    id: 'cb-pay',
-    name: 'CB Pay',
-    image: cbpay,
-  },
-  {
-    id: 'aya-pay',
-    name: 'AYA Pay',
-    image: ayapay,
-  },
-];
 
 export default function ShoppingCartPage() {
   const { cartItems, removeFromCart, updateQuantity, getCartTotal } =
     useShoppingCart();
-  const [selectedPayment, setSelectedPayment] = useState(paymentMethods[0].id);
   const router = useRouter();
 
   const cartProducts = cartItems.map((item) => ({
@@ -42,9 +19,7 @@ export default function ShoppingCartPage() {
   }));
 
   const handleCheckout = async () => {
-    // For demo purposes, we'll just navigate to the checkout page
-    // and pass the selected payment method in the URL
-    router.push(`/checkout?payment=${selectedPayment}`);
+    router.push('/checkout');
   };
 
   if (cartItems.length === 0) {
@@ -133,37 +108,30 @@ export default function ShoppingCartPage() {
               Order Summary
             </h2>
 
-            {/* Payment Method Selection */}
+            {/* Shipping Information */}
             <div className='space-y-3'>
               <h3 className='text-sm font-medium text-gray-700'>
-                Payment Method
+                Shipping Information
               </h3>
-              <div className='space-y-2'>
-                {paymentMethods.map((method) => (
-                  <label
-                    key={method.id}
-                    className='flex items-center gap-3 p-3 border rounded-lg cursor-pointer'
-                  >
-                    <input
-                      type='radio'
-                      name='payment'
-                      value={method.id}
-                      checked={selectedPayment === method.id}
-                      onChange={(e) => setSelectedPayment(e.target.value)}
-                      className='text-dark-brown'
-                    />
-                    <div className='flex justify-between w-full'>
-                      <span>{method.name}</span>
-                      <Image
-                        width={50}
-                        height={50}
-                        src={method.image}
-                        alt={method.name}
-                        className='w-5 h-5'
-                      />
-                    </div>
-                  </label>
-                ))}
+              <div className='p-3 border rounded-lg'>
+                <p className='text-sm text-gray-600'>
+                  Estimated delivery: 3-5 business days
+                </p>
+                <p className='text-sm text-gray-600 mt-1'>
+                  Free shipping on orders over $100
+                </p>
+              </div>
+            </div>
+
+            {/* Promotions Section */}
+            <div className='space-y-3'>
+              <h3 className='text-sm font-medium text-gray-700'>
+                Available Promotions
+              </h3>
+              <div className='p-3 border rounded-lg'>
+                <p className='text-sm text-gray-600'>
+                  Use code &quot;WELCOME10&quot; for 10% off your first order
+                </p>
               </div>
             </div>
 
