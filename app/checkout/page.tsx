@@ -7,6 +7,7 @@ import { useShoppingCart } from '@/context/ShoppingCartContext';
 import { Button } from '@/components/ui/button';
 import { Loader2 } from 'lucide-react';
 import { products } from '@/lib/products';
+import { Textarea } from '@/components/ui/textarea';
 
 export default function CheckoutPage() {
   const router = useRouter();
@@ -23,7 +24,9 @@ export default function CheckoutPage() {
     country: '',
   });
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleInputChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
     const { name, value } = e.target;
     setFormData((prev) => ({
       ...prev,
@@ -113,14 +116,14 @@ export default function CheckoutPage() {
                   >
                     Address
                   </label>
-                  <input
-                    type='text'
+                  <Textarea
                     id='address'
                     name='address'
                     required
                     value={formData.address}
                     onChange={handleInputChange}
-                    className='w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-dark-brown'
+                    className='w-full border-gray-300 focus:ring-2 focus:ring-dark-brown'
+                    rows={3}
                   />
                 </div>
 
@@ -162,7 +165,7 @@ export default function CheckoutPage() {
                   </div>
                 </div>
 
-                <div className='space-y-2'>
+                {/* <div className='space-y-2'>
                   <label
                     htmlFor='country'
                     className='text-sm font-medium text-gray-700'
@@ -178,7 +181,7 @@ export default function CheckoutPage() {
                     onChange={handleInputChange}
                     className='w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-dark-brown'
                   />
-                </div>
+                </div> */}
               </form>
             </div>
           </div>
