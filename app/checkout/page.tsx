@@ -8,6 +8,18 @@ import { Button } from '@/components/ui/button';
 import { Loader2 } from 'lucide-react';
 import { products } from '@/lib/products';
 import { Textarea } from '@/components/ui/textarea';
+import Image from 'next/image';
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from '@/components/ui/alert-dialog';
 
 export default function CheckoutPage() {
   const router = useRouter();
@@ -218,6 +230,34 @@ export default function CheckoutPage() {
                 </div>
               </div>
             </div>
+
+            <AlertDialog>
+              <AlertDialogTrigger>
+                <Button className='w-full bg-dark-brown hover:bg-dark-brown/90 text-white'>
+                  Scan QR Code to Pay
+                </Button>
+              </AlertDialogTrigger>
+              <AlertDialogContent>
+                <AlertDialogHeader>
+                  <AlertDialogTitle></AlertDialogTitle>
+                  <AlertDialogDescription>
+                    <div className='bg-white rounded-lg border border-border-brown'>
+                      <Image
+                        src='/scan/kbz.jpg'
+                        alt='Payment Methods'
+                        width={300}
+                        height={300}
+                        className='w-full rounded-lg'
+                      />
+                    </div>
+                  </AlertDialogDescription>
+                </AlertDialogHeader>
+                <AlertDialogFooter>
+                  <AlertDialogCancel>Close</AlertDialogCancel>
+                  <AlertDialogAction>Done</AlertDialogAction>
+                </AlertDialogFooter>
+              </AlertDialogContent>
+            </AlertDialog>
 
             <Button
               onClick={handleSubmit}
