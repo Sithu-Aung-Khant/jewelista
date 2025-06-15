@@ -406,18 +406,10 @@ export default function CheckoutPage() {
               </h2>
 
               <div className='mb-4'>
-                <p className='text-sm text-gray-600 mb-2'>
-                  Please follow these steps to complete your payment:
+                <p className='text-sm text-gray-600 mb-3'>
+                  Select your payment method and scan the QR code to complete
+                  the payment
                 </p>
-                <ol className='list-decimal list-inside text-sm text-gray-600 space-y-1'>
-                  <li>Select your preferred payment method below</li>
-                  <li>Scan the QR code with your mobile banking app</li>
-                  <li>Complete the payment in your banking app</li>
-                  <li>
-                    Click &quot;I&apos;ve Completed the Payment&quot; after
-                    successful payment
-                  </li>
-                </ol>
               </div>
 
               <div className='flex flex-wrap gap-4'>
@@ -497,7 +489,7 @@ export default function CheckoutPage() {
                         <X className='h-5 w-5' />
                       </AlertDialogCancel>
                     </AlertDialogHeader>
-                    <AlertDialogDescription className='w-[80%]'>
+                    <AlertDialogDescription className=''>
                       <div className='bg-white rounded-lg border border-border-brown p-4'>
                         <Image
                           src='/scan/cb-copy.jpg'
