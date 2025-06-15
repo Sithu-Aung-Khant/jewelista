@@ -1,6 +1,12 @@
 'use client';
 
-import { createContext, useState, useEffect, ReactNode } from 'react';
+import {
+  createContext,
+  useState,
+  useEffect,
+  ReactNode,
+  useContext,
+} from 'react';
 import { products } from '@/lib/products';
 
 interface CartItem {
@@ -21,15 +27,22 @@ const ShoppingCartContext = createContext<ShoppingCartContext | null>(null);
 
 const CART_STORAGE_KEY = 'shoppingCart';
 
-export const useShoppingCart = () => {
+export function ShoppingCartProvider({ children }: { children: ReactNode }) {
   const [cartItems, setCartItems] = useState<CartItem[]>(() => {
-    const storedCart = localStorage.getItem(CART_STORAGE_KEY);
-    return storedCart ? JSON.parse(storedCart) : [];
+    // Initialize from localStorage on mount
+    if (typeof window !== 'undefined') {
+      const storedCart = localStorage.getItem(CART_STORAGE_KEY);
+      return storedCart ? JSON.parse(storedCart) : [];
+    }
+    return [];
   });
 
-  const saveCartToLocalStorage = (items: CartItem[]) => {
-    localStorage.setItem(CART_STORAGE_KEY, JSON.stringify(items));
-  };
+  // Save to localStorage whenever cart changes
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      localStorage.setItem(CART_STORAGE_KEY, JSON.stringify(cartItems));
+    }
+  }, [cartItems]);
 
   const addToCart = (productId: number, quantity: number) => {
     setCartItems((prevItems) => {
@@ -44,7 +57,6 @@ export const useShoppingCart = () => {
       } else {
         newItems = [...prevItems, { id: productId, quantity }];
       }
-      saveCartToLocalStorage(newItems);
       return newItems;
     });
   };
@@ -52,95 +64,31 @@ export const useShoppingCart = () => {
   const removeFromCart = (productId: number) => {
     setCartItems((prevItems) => {
       const newItems = prevItems.filter((item) => item.id !== productId);
-      saveCartToLocalStorage(newItems);
       return newItems;
     });
   };
 
   const updateQuantity = (productId: number, quantity: number) => {
+    if (quantity < 1) {
+      removeFromCart(productId);
+      return;
+    }
     setCartItems((prevItems) => {
       const newItems = prevItems.map((item) =>
         item.id === productId ? { ...item, quantity } : item
       );
-      saveCartToLocalStorage(newItems);
       return newItems;
     });
   };
 
   const clearCart = () => {
     setCartItems([]);
-    saveCartToLocalStorage([]);
   };
 
   const getCartTotal = () => {
     return cartItems.reduce((total, item) => {
       const product = products.find((p) => p.id === item.id);
       return total + (product ? product.price * item.quantity : 0);
-    }, 0);
-  };
-
-  return {
-    cartItems,
-    addToCart,
-    removeFromCart,
-    updateQuantity,
-    clearCart,
-    getCartTotal,
-  };
-};
-
-export function ShoppingCartProvider({ children }: { children: ReactNode }) {
-  const [cartItems, setCartItems] = useState<CartItem[]>([]);
-
-  // Load cart from localStorage on mount
-  useEffect(() => {
-    const savedCart = localStorage.getItem('cart');
-    if (savedCart) {
-      setCartItems(JSON.parse(savedCart));
-    }
-  }, []);
-
-  // Save cart to localStorage whenever it changes
-  useEffect(() => {
-    localStorage.setItem('cart', JSON.stringify(cartItems));
-  }, [cartItems]);
-
-  const addToCart = (id: number, quantity: number) => {
-    setCartItems((curr) => {
-      const existing = curr.find((item) => item.id === id);
-      if (existing) {
-        return curr.map((item) =>
-          item.id === id
-            ? { ...item, quantity: item.quantity + quantity }
-            : item
-        );
-      }
-      return [...curr, { id, quantity }];
-    });
-  };
-
-  const removeFromCart = (id: number) => {
-    setCartItems((curr) => curr.filter((item) => item.id !== id));
-  };
-
-  const updateQuantity = (id: number, quantity: number) => {
-    if (quantity < 1) {
-      removeFromCart(id);
-      return;
-    }
-    setCartItems((curr) =>
-      curr.map((item) => (item.id === id ? { ...item, quantity } : item))
-    );
-  };
-
-  const clearCart = () => {
-    setCartItems([]);
-  };
-
-  const getCartTotal = () => {
-    return cartItems.reduce((total, cartItem) => {
-      const product = products.find((p) => p.id === cartItem.id);
-      return total + (product?.price || 0) * cartItem.quantity;
     }, 0);
   };
 
@@ -159,3 +107,13 @@ export function ShoppingCartProvider({ children }: { children: ReactNode }) {
     </ShoppingCartContext.Provider>
   );
 }
+
+export const useShoppingCart = () => {
+  const context = useContext(ShoppingCartContext);
+  if (!context) {
+    throw new Error(
+      'useShoppingCart must be used within a ShoppingCartProvider'
+    );
+  }
+  return context;
+};

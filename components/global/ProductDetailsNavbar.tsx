@@ -1,10 +1,17 @@
-"use client";
+'use client';
 
-import Link from "next/link";
-import { ShoppingCart } from "lucide-react";
-import { motion } from "framer-motion";
+import Link from 'next/link';
+import { ShoppingCart } from 'lucide-react';
+import { motion } from 'framer-motion';
+import { useShoppingCart } from '@/context/ShoppingCartContext';
 
 export function ProductDetailsNavbar() {
+  const { cartItems } = useShoppingCart();
+  const totalItems = cartItems.reduce(
+    (total, item) => total + item.quantity,
+    0
+  );
+
   return (
     <nav className='sticky top-0 z-50 bg-white/80 backdrop-blur-md border-b border-border-brown'>
       <div className='container mx-auto px-4 max-w-7xl'>
@@ -31,6 +38,11 @@ export function ProductDetailsNavbar() {
             >
               <ShoppingCart className='w-5 h-5 text-dark-brown' />
               <span className='text-sm font-medium text-dark-brown'>Cart</span>
+              {totalItems > 0 && (
+                <span className='absolute -top-2 -right-2 bg-dark-brown text-white text-xs font-medium w-5 h-5 rounded-full flex items-center justify-center'>
+                  {totalItems}
+                </span>
+              )}
             </motion.div>
           </Link>
         </div>
