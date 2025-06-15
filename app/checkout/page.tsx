@@ -23,6 +23,7 @@ import {
 import ayapay from '@/public/payment/aya.jpeg';
 import cbpay from '@/public/payment/cb.jpeg';
 import kbzpay from '@/public/payment/kbz.png';
+import { toast } from 'sonner';
 
 export default function CheckoutPage() {
   const router = useRouter();
@@ -38,10 +39,42 @@ export default function CheckoutPage() {
     postalCode: '',
     country: '',
   });
+  const [formErrors, setFormErrors] = useState<Record<string, string>>({});
   const [paymentStatus, setPaymentStatus] = useState<'pending' | 'completed'>(
     'pending'
   );
-  console.log(paymentStatus);
+  const [selectedPaymentMethod, setSelectedPaymentMethod] = useState<
+    string | null
+  >(null);
+
+  const validateForm = () => {
+    const errors: Record<string, string> = {};
+
+    if (!formData.fullName.trim()) {
+      errors.fullName = 'Full name is required';
+    }
+
+    if (!formData.email.trim()) {
+      errors.email = 'Email is required';
+    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
+      errors.email = 'Please enter a valid email address';
+    }
+
+    if (!formData.address.trim()) {
+      errors.address = 'Address is required';
+    }
+
+    if (!formData.city.trim()) {
+      errors.city = 'City is required';
+    }
+
+    if (!formData.postalCode.trim()) {
+      errors.postalCode = 'Postal code is required';
+    }
+
+    setFormErrors(errors);
+    return Object.keys(errors).length === 0;
+  };
 
   const handleInputChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -51,10 +84,33 @@ export default function CheckoutPage() {
       ...prev,
       [name]: value,
     }));
+    // Clear error when user starts typing
+    if (formErrors[name]) {
+      setFormErrors((prev) => ({
+        ...prev,
+        [name]: '',
+      }));
+    }
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+
+    if (!validateForm()) {
+      toast.error('Form Validation Error', {
+        description: 'Please fill in all required fields correctly.',
+      });
+      return;
+    }
+
+    if (paymentStatus !== 'completed') {
+      toast.error('Payment Required', {
+        description:
+          'Please select a payment method and complete the payment before proceeding.',
+      });
+      return;
+    }
+
     setIsLoading(true);
 
     // Simulate API call delay
@@ -66,6 +122,20 @@ export default function CheckoutPage() {
       clearCart(); // Clear the cart
       router.push(`/checkout/confirmation/${mockOrderId}`);
     }, 1500);
+  };
+
+  const handlePaymentMethodSelect = (method: string) => {
+    setSelectedPaymentMethod(method);
+    toast.info('Payment Method Selected', {
+      description: `Please scan the QR code with ${method} to complete your payment.`,
+    });
+  };
+
+  const handlePaymentComplete = () => {
+    setPaymentStatus('completed');
+    toast.success('Payment Completed', {
+      description: 'You can now proceed to complete your order.',
+    });
   };
 
   const cartProducts = cartItems.map((item) => ({
@@ -97,7 +167,7 @@ export default function CheckoutPage() {
                     htmlFor='fullName'
                     className='text-sm font-medium text-gray-700'
                   >
-                    Full Name
+                    Full Name <span className='text-red-500'>*</span>
                   </label>
                   <input
                     type='text'
@@ -106,8 +176,15 @@ export default function CheckoutPage() {
                     required
                     value={formData.fullName}
                     onChange={handleInputChange}
-                    className='w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-dark-brown'
+                    className={`w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-dark-brown ${
+                      formErrors.fullName ? 'border-red-500' : 'border-gray-300'
+                    }`}
                   />
+                  {formErrors.fullName && (
+                    <p className='text-sm text-red-500'>
+                      {formErrors.fullName}
+                    </p>
+                  )}
                 </div>
 
                 <div className='space-y-2'>
@@ -115,7 +192,7 @@ export default function CheckoutPage() {
                     htmlFor='email'
                     className='text-sm font-medium text-gray-700'
                   >
-                    Email
+                    Email <span className='text-red-500'>*</span>
                   </label>
                   <input
                     type='email'
@@ -124,8 +201,13 @@ export default function CheckoutPage() {
                     required
                     value={formData.email}
                     onChange={handleInputChange}
-                    className='w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-dark-brown'
+                    className={`w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-dark-brown ${
+                      formErrors.email ? 'border-red-500' : 'border-gray-300'
+                    }`}
                   />
+                  {formErrors.email && (
+                    <p className='text-sm text-red-500'>{formErrors.email}</p>
+                  )}
                 </div>
 
                 <div className='space-y-2'>
@@ -133,7 +215,7 @@ export default function CheckoutPage() {
                     htmlFor='address'
                     className='text-sm font-medium text-gray-700'
                   >
-                    Address
+                    Address <span className='text-red-500'>*</span>
                   </label>
                   <Textarea
                     id='address'
@@ -141,9 +223,14 @@ export default function CheckoutPage() {
                     required
                     value={formData.address}
                     onChange={handleInputChange}
-                    className='w-full border-gray-300 focus:ring-2 focus:ring-dark-brown'
+                    className={`w-full border focus:ring-2 focus:ring-dark-brown ${
+                      formErrors.address ? 'border-red-500' : 'border-gray-300'
+                    }`}
                     rows={3}
                   />
+                  {formErrors.address && (
+                    <p className='text-sm text-red-500'>{formErrors.address}</p>
+                  )}
                 </div>
 
                 <div className='grid grid-cols-2 gap-4'>
@@ -152,7 +239,7 @@ export default function CheckoutPage() {
                       htmlFor='city'
                       className='text-sm font-medium text-gray-700'
                     >
-                      City
+                      City <span className='text-red-500'>*</span>
                     </label>
                     <input
                       type='text'
@@ -161,8 +248,13 @@ export default function CheckoutPage() {
                       required
                       value={formData.city}
                       onChange={handleInputChange}
-                      className='w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-dark-brown'
+                      className={`w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-dark-brown ${
+                        formErrors.city ? 'border-red-500' : 'border-gray-300'
+                      }`}
                     />
+                    {formErrors.city && (
+                      <p className='text-sm text-red-500'>{formErrors.city}</p>
+                    )}
                   </div>
 
                   <div className='space-y-2'>
@@ -170,7 +262,7 @@ export default function CheckoutPage() {
                       htmlFor='postalCode'
                       className='text-sm font-medium text-gray-700'
                     >
-                      Postal Code
+                      Postal Code <span className='text-red-500'>*</span>
                     </label>
                     <input
                       type='text'
@@ -179,28 +271,19 @@ export default function CheckoutPage() {
                       required
                       value={formData.postalCode}
                       onChange={handleInputChange}
-                      className='w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-dark-brown'
+                      className={`w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-dark-brown ${
+                        formErrors.postalCode
+                          ? 'border-red-500'
+                          : 'border-gray-300'
+                      }`}
                     />
+                    {formErrors.postalCode && (
+                      <p className='text-sm text-red-500'>
+                        {formErrors.postalCode}
+                      </p>
+                    )}
                   </div>
                 </div>
-
-                {/* <div className='space-y-2'>
-                  <label
-                    htmlFor='country'
-                    className='text-sm font-medium text-gray-700'
-                  >
-                    Country
-                  </label>
-                  <input
-                    type='text'
-                    id='country'
-                    name='country'
-                    required
-                    value={formData.country}
-                    onChange={handleInputChange}
-                    className='w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-dark-brown'
-                  />
-                </div> */}
               </form>
             </div>
           </div>
@@ -238,167 +321,194 @@ export default function CheckoutPage() {
               </div>
             </div>
 
-            <h2 className='text-xl font-playfair-display text-dark-brown mb-4'>
-              Payment Method
-            </h2>
+            <div className='bg-white p-6 rounded-lg border border-border-brown'>
+              <h2 className='text-xl font-playfair-display text-dark-brown mb-4'>
+                Payment Method
+              </h2>
 
-            <div className='flex flex-wrap gap-4'>
-              {/* KBZ Pay */}
-              <AlertDialog>
-                <AlertDialogTrigger asChild>
-                  <Image
-                    src={kbzpay}
-                    alt='KBZ Pay'
-                    width={80}
-                    height={80}
-                    className='w-14 border hover:cursor-pointer hover:bg-gray-200 border-border-brown h-auto rounded-lg'
-                  />
-                </AlertDialogTrigger>
-                <AlertDialogContent>
-                  <AlertDialogHeader className='flex flex-row justify-between items-center'>
-                    <AlertDialogTitle>KBZ Pay QR Code</AlertDialogTitle>
-                    <AlertDialogCancel className='p-2 border hover:bg-gray-200 border-gray-50'>
-                      <X className='h-5 w-5' />
-                    </AlertDialogCancel>
-                  </AlertDialogHeader>
-                  <AlertDialogDescription>
-                    <div className='bg-white rounded-lg border border-gray-100  p-4'>
-                      <Image
-                        src='/scan/kbz.jpg'
-                        alt='KBZ Pay QR Code'
-                        width={300}
-                        height={300}
-                        className='w-full rounded-lg'
-                      />
-                      <p className='mt-4 text-sm text-gray-600 text-center'>
-                        Scan this QR code with KBZ Pay to complete the payment
-                      </p>
-                    </div>
-                  </AlertDialogDescription>
-                  <AlertDialogFooter>
-                    <AlertDialogAction
-                      onClick={() => {
-                        setPaymentStatus('completed');
-                        handleSubmit({
-                          preventDefault: () => {},
-                        } as React.FormEvent);
-                      }}
-                    >
-                      I&apos;ve Completed the Payment
-                    </AlertDialogAction>
-                  </AlertDialogFooter>
-                </AlertDialogContent>
-              </AlertDialog>
+              <div className='mb-4'>
+                <p className='text-sm text-gray-600 mb-2'>
+                  Please follow these steps to complete your payment:
+                </p>
+                <ol className='list-decimal list-inside text-sm text-gray-600 space-y-1'>
+                  <li>Select your preferred payment method below</li>
+                  <li>Scan the QR code with your mobile banking app</li>
+                  <li>Complete the payment in your banking app</li>
+                  <li>
+                    Click &quot;I&apos;ve Completed the Payment&quot; after
+                    successful payment
+                  </li>
+                </ol>
+              </div>
 
-              {/* CB Pay */}
-              <AlertDialog>
-                <AlertDialogTrigger asChild>
-                  <Image
-                    src={cbpay}
-                    alt='CB Pay'
-                    width={80}
-                    height={80}
-                    className='w-14 border hover:cursor-pointer hover:bg-gray-200 border-border-brown h-auto rounded-lg'
-                  />
-                </AlertDialogTrigger>
-                <AlertDialogContent className='max-w-md'>
-                  <AlertDialogHeader className='flex flex-row justify-between items-center'>
-                    <AlertDialogTitle>CB Pay QR Code</AlertDialogTitle>
-                    <AlertDialogCancel className='p-2 border hover:bg-gray-200 border-gray-50'>
-                      <X className='h-5 w-5' />
-                    </AlertDialogCancel>
-                  </AlertDialogHeader>
-                  <AlertDialogDescription className='w-[80%'>
-                    <div className='bg-white  rounded-lg border border-border-brown p-4 '>
-                      <Image
-                        src='/scan/cb-copy.jpg'
-                        alt='CB Pay QR Code'
-                        width={300}
-                        height={300}
-                        className='rounded-lg w-full'
-                      />
-                      <p className='text-sm mt-4 text-gray-600 text-center'>
-                        Scan this QR code with CB Pay to complete the payment
-                      </p>
-                    </div>
-                  </AlertDialogDescription>
-                  <AlertDialogFooter>
-                    <AlertDialogAction
-                      onClick={() => {
-                        setPaymentStatus('completed');
-                        handleSubmit({
-                          preventDefault: () => {},
-                        } as React.FormEvent);
-                      }}
+              <div className='flex flex-wrap gap-4'>
+                {/* KBZ Pay */}
+                <AlertDialog>
+                  <AlertDialogTrigger asChild>
+                    <div
+                      className={`cursor-pointer p-2 rounded-lg border ${
+                        selectedPaymentMethod === 'KBZ Pay'
+                          ? 'border-dark-brown bg-gray-50'
+                          : 'border-border-brown hover:bg-gray-50'
+                      }`}
+                      onClick={() => handlePaymentMethodSelect('KBZ Pay')}
                     >
-                      I&apos;ve Completed the Payment
-                    </AlertDialogAction>
-                  </AlertDialogFooter>
-                </AlertDialogContent>
-              </AlertDialog>
+                      <Image
+                        src={kbzpay}
+                        alt='KBZ Pay'
+                        width={80}
+                        height={80}
+                        className='w-12 h-auto rounded-lg'
+                      />
+                    </div>
+                  </AlertDialogTrigger>
+                  <AlertDialogContent>
+                    <AlertDialogHeader className='flex flex-row justify-between items-center'>
+                      <AlertDialogTitle>KBZ Pay QR Code</AlertDialogTitle>
+                      <AlertDialogCancel className='p-2 border hover:bg-gray-200 border-gray-50'>
+                        <X className='h-5 w-5' />
+                      </AlertDialogCancel>
+                    </AlertDialogHeader>
+                    <AlertDialogDescription>
+                      <div className='bg-white rounded-lg border border-gray-100 p-4'>
+                        <Image
+                          src='/scan/kbz.jpg'
+                          alt='KBZ Pay QR Code'
+                          width={300}
+                          height={300}
+                          className='w-full rounded-lg'
+                        />
+                        <p className='mt-4 text-sm text-gray-600 text-center'>
+                          Scan this QR code with KBZ Pay to complete the payment
+                        </p>
+                      </div>
+                    </AlertDialogDescription>
+                    <AlertDialogFooter>
+                      <AlertDialogAction onClick={handlePaymentComplete}>
+                        I&apos;ve Completed the Payment
+                      </AlertDialogAction>
+                    </AlertDialogFooter>
+                  </AlertDialogContent>
+                </AlertDialog>
 
-              {/* AYA Pay */}
-              <AlertDialog>
-                <AlertDialogTrigger asChild>
-                  <Image
-                    src={ayapay}
-                    alt='AYA Pay'
-                    width={80}
-                    height={80}
-                    className='w-14 border hover:cursor-pointer hover:bg-gray-200 border-border-brown h-auto rounded-lg'
-                  />
-                </AlertDialogTrigger>
-                <AlertDialogContent className='max-w-md'>
-                  <AlertDialogHeader className='flex flex-row justify-between items-center'>
-                    <AlertDialogTitle>AYA Pay QR Code</AlertDialogTitle>
-                    <AlertDialogCancel className='p-2 border hover:bg-gray-200 border-gray-50'>
-                      <X className='h-5 w-5' />
-                    </AlertDialogCancel>
-                  </AlertDialogHeader>
-                  <AlertDialogDescription>
-                    <div className='bg-white rounded-lg border border-border-brown p-4'>
-                      <Image
-                        src='/scan/aya-copy.jpg'
-                        alt='AYA Pay QR Code'
-                        width={300}
-                        height={300}
-                        className='w-full rounded-lg'
-                      />
-                      <p className='mt-4 text-sm text-gray-600 text-center'>
-                        Scan this QR code with AYA Pay to complete the payment
-                      </p>
-                    </div>
-                  </AlertDialogDescription>
-                  <AlertDialogFooter>
-                    <AlertDialogAction
-                      onClick={() => {
-                        setPaymentStatus('completed');
-                        handleSubmit({
-                          preventDefault: () => {},
-                        } as React.FormEvent);
-                      }}
+                {/* CB Pay */}
+                <AlertDialog>
+                  <AlertDialogTrigger asChild>
+                    <div
+                      className={`cursor-pointer p-2 rounded-lg border ${
+                        selectedPaymentMethod === 'CB Pay'
+                          ? 'border-dark-brown bg-gray-50'
+                          : 'border-border-brown hover:bg-gray-50'
+                      }`}
+                      onClick={() => handlePaymentMethodSelect('CB Pay')}
                     >
-                      I&apos;ve Completed the Payment
-                    </AlertDialogAction>
-                  </AlertDialogFooter>
-                </AlertDialogContent>
-              </AlertDialog>
+                      <Image
+                        src={cbpay}
+                        alt='CB Pay'
+                        width={80}
+                        height={80}
+                        className='w-12 h-auto rounded-lg'
+                      />
+                    </div>
+                  </AlertDialogTrigger>
+                  <AlertDialogContent className='max-w-md'>
+                    <AlertDialogHeader className='flex flex-row justify-between items-center'>
+                      <AlertDialogTitle>CB Pay QR Code</AlertDialogTitle>
+                      <AlertDialogCancel className='p-2 border hover:bg-gray-200 border-gray-50'>
+                        <X className='h-5 w-5' />
+                      </AlertDialogCancel>
+                    </AlertDialogHeader>
+                    <AlertDialogDescription className='w-[80%]'>
+                      <div className='bg-white rounded-lg border border-border-brown p-4'>
+                        <Image
+                          src='/scan/cb-copy.jpg'
+                          alt='CB Pay QR Code'
+                          width={300}
+                          height={300}
+                          className='rounded-lg w-full'
+                        />
+                        <p className='text-sm mt-4 text-gray-600 text-center'>
+                          Scan this QR code with CB Pay to complete the payment
+                        </p>
+                      </div>
+                    </AlertDialogDescription>
+                    <AlertDialogFooter>
+                      <AlertDialogAction onClick={handlePaymentComplete}>
+                        I&apos;ve Completed the Payment
+                      </AlertDialogAction>
+                    </AlertDialogFooter>
+                  </AlertDialogContent>
+                </AlertDialog>
+
+                {/* AYA Pay */}
+                <AlertDialog>
+                  <AlertDialogTrigger asChild>
+                    <div
+                      className={`cursor-pointer p-2 rounded-lg border ${
+                        selectedPaymentMethod === 'AYA Pay'
+                          ? 'border-dark-brown bg-gray-50'
+                          : 'border-border-brown hover:bg-gray-50'
+                      }`}
+                      onClick={() => handlePaymentMethodSelect('AYA Pay')}
+                    >
+                      <Image
+                        src={ayapay}
+                        alt='AYA Pay'
+                        width={80}
+                        height={80}
+                        className='w-12 h-auto rounded-lg'
+                      />
+                    </div>
+                  </AlertDialogTrigger>
+                  <AlertDialogContent className='max-w-md'>
+                    <AlertDialogHeader className='flex flex-row justify-between items-center'>
+                      <AlertDialogTitle>AYA Pay QR Code</AlertDialogTitle>
+                      <AlertDialogCancel className='p-2 border hover:bg-gray-200 border-gray-50'>
+                        <X className='h-5 w-5' />
+                      </AlertDialogCancel>
+                    </AlertDialogHeader>
+                    <AlertDialogDescription>
+                      <div className='bg-white rounded-lg border border-border-brown p-4'>
+                        <Image
+                          src='/scan/aya-copy.jpg'
+                          alt='AYA Pay QR Code'
+                          width={300}
+                          height={300}
+                          className='w-full rounded-lg'
+                        />
+                        <p className='mt-4 text-sm text-gray-600 text-center'>
+                          Scan this QR code with AYA Pay to complete the payment
+                        </p>
+                      </div>
+                    </AlertDialogDescription>
+                    <AlertDialogFooter>
+                      <AlertDialogAction onClick={handlePaymentComplete}>
+                        I&apos;ve Completed the Payment
+                      </AlertDialogAction>
+                    </AlertDialogFooter>
+                  </AlertDialogContent>
+                </AlertDialog>
+              </div>
+
+              <div className='mt-6'>
+                <Button
+                  onClick={handleSubmit}
+                  disabled={isLoading || paymentStatus !== 'completed'}
+                  className='w-full bg-dark-brown hover:bg-dark-brown/90 text-white'
+                >
+                  {isLoading ? (
+                    <div className='flex items-center justify-center'>
+                      <Loader2 className='mr-2 h-4 w-4 animate-spin' />
+                      Processing...
+                    </div>
+                  ) : paymentStatus !== 'completed' ? (
+                    'Complete Payment First'
+                  ) : (
+                    'Complete Order'
+                  )}
+                </Button>
+              </div>
             </div>
-
-            <Button
-              onClick={handleSubmit}
-              disabled={isLoading}
-              className='w-full bg-dark-brown hover:bg-dark-brown/90 text-white'
-            >
-              {isLoading ? (
-                <div className='flex items-center justify-center'>
-                  <Loader2 className='mr-2 h-4 w-4 animate-spin' />
-                  Processing...
-                </div>
-              ) : (
-                'Complete Order'
-              )}
-            </Button>
           </div>
         </div>
       </motion.div>
