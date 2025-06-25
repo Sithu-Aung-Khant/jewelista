@@ -1,31 +1,32 @@
 export const processSteps = [
   {
-    title: 'CONSULTATION',
+    title: 'BROWSE COLLECTION',
     description:
-      'We discuss your vision and preferences to craft a unique design.',
+      'Explore our wide range of beautifully crafted jewelry pieces for every style and occasion.',
   },
   {
-    title: 'SELECTING MATERIALS',
+    title: 'SELECT YOUR FAVORITE',
     description:
-      'Choose from exquisite diamonds, precious metals, and gemstones.',
+      'Find the perfect piece that speaks to you and suits your unique taste.',
   },
   {
-    title: 'CREATING A 3D MODEL',
+    title: 'ADD TO CART',
     description:
-      'Visualize your design with a precise 3D model before production.',
+      'Easily add your chosen jewelry to the shopping cart with a single click.',
   },
   {
-    title: 'MANUFACTURING',
+    title: 'SECURE CHECKOUT',
     description:
-      'Expert artisans bring your piece to life with precision and care',
+      'Enjoy a smooth and secure checkout process with multiple payment options.',
   },
   {
     title: 'QUALITY ASSURANCE',
-    description: 'Every detail is inspected to ensure flawless craftsmanship',
+    description:
+      'Each piece is carefully inspected to ensure it meets our highest standards.',
   },
   {
-    title: 'DELIVERY',
+    title: 'FAST DELIVERY',
     description:
-      'Your custom jewelry is elegantly packaged and delivered to you',
+      'Your jewelry is elegantly packaged and delivered promptly to your doorstep.',
   },
 ];

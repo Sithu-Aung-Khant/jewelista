@@ -10,20 +10,20 @@ export default function Process() {
       <div className='pt-6 text-sm max-w-7xl mx-auto'>
         <span className='text-light-brown'>Home</span>
         <span className='mx-2'>/</span>
-        <span className=''>Custom Jewelry</span>
+        <span className=''>Jewelry</span>
       </div>
       <div className='max-w-7xl mx-auto py-14'>
         <div className='grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12'>
           <div className='space-y-3'>
             <h2 className='text-3xl tracking-wide md:text-4xl font-playfair-display text-darkest-brown'>
-              Custom Jewelry
+              Jewelry
             </h2>
             <p className='text-dark-brown text-sm md:text-xl font-dm-sans tracking-wider md:leading-relaxed md:w-2/3 md:py-5'>
-              Create Your Masterpiece: Bespoke Jewelry Crafted for You
+              Discover Our Collection: Timeless Jewelry for Every Occasion
             </p>
             <Image
               src='/images/products/products.jpg'
-              alt='Jewelry Process'
+              alt='Jewelry Collection'
               width={300}
               height={300}
               unoptimized
@@ -33,8 +33,8 @@ export default function Process() {
 
           <div className='md:mt-2'>
             <p className='text-dark-brown md:text-base pb-10 pl-2 pr-4 text-sm tracking-wider hidden md:block'>
-              Exquisite design, flawless craftsmanship, and timeless
-              elegance—your vision, perfectly crafted.{' '}
+              Explore our curated selection of exquisite jewelry—crafted with
+              passion, designed to shine, and perfect for every style.
             </p>
             {processSteps.map((step, index) => (
               <motion.div
@@ -62,12 +62,12 @@ export default function Process() {
             ))}
           </div>
           <p className='text-dark-brown text-sm tracking-wider md:hidden'>
-            Exquisite design, flawless craftsmanship, and timeless elegance—your
-            vision, perfectly crafted.{' '}
+            Explore our curated selection of exquisite jewelry—crafted with
+            passion, designed to shine, and perfect for every style.
           </p>
           <Image
             src='/images/products/products.jpg'
-            alt='Jewelry Process'
+            alt='Jewelry Collection'
             width={300}
             height={300}
             unoptimized

@@ -1,17 +1,14 @@
 'use client';
-import React from 'react';
-import Link from 'next/link';
-import Image from 'next/image';
-import { motion } from 'framer-motion';
-import TbMenu2 from '@/public/icons/TbMenu2.svg';
-import Logo from '@/public/icons/logo.svg';
-import { IconButton } from './IconButton';
-import HeartIcon from '@/public/icons/heart.svg';
-import ShopIcon from '@/public/icons/shop.svg';
-import SearchIcon from '@/public/icons/search.svg';
-import CalendarIcon from '@/public/icons/calendar.svg';
-import { ChevronDown } from 'lucide-react';
 import { NAV_ITEMS } from '@/lib/navigationItems';
+import TbMenu2 from '@/public/icons/TbMenu2.svg';
+import CalendarIcon from '@/public/icons/calendar.svg';
+import HeartIcon from '@/public/icons/heart.svg';
+import SearchIcon from '@/public/icons/search.svg';
+import ShopIcon from '@/public/icons/shop.svg';
+import { motion } from 'framer-motion';
+import { ChevronDown } from 'lucide-react';
+import Link from 'next/link';
+import { IconButton } from './IconButton';
 
 const Navigation = () => (
   <motion.nav
@@ -37,12 +34,7 @@ const Navigation = () => (
       />
     </div>
     <Link href='/' className='flex-shrink-0 md:px-8 py-3 md:border-r-2'>
-      <Image
-        src={Logo}
-        alt='MyJewel Logo'
-        className='md:h-8 h-6 w-auto'
-        priority
-      />
+      <span className='text-4xl font-playfair-display'>Jewelista</span>
     </Link>
     <div className='hidden md:flex items-center gap-x-8 text-[13px] tracking-wider'>
       {NAV_ITEMS.map((item, index) => (

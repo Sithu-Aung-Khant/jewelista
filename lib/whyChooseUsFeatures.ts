@@ -1,7 +1,8 @@
 export const whyChooseUsFeatures = [
   {
-    title: 'Personal Design Consultation',
-    description: 'Work with our designers to create your perfect piece.',
+    title: 'Curated Collections',
+    description:
+      'Discover a handpicked selection of stunning jewelry for every occasion.',
     icon: '/icons/user-check.svg',
   },
   {

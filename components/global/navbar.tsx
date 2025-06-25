@@ -1,6 +1,6 @@
-import React from "react";
-import Announcement from "./announcement";
-import Navigation from "./Navigation";
+import React from 'react';
+import Announcement from './announcement';
+import Navigation from './Navigation';
 
 const Navbar = () => {
   return (
