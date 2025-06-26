@@ -59,10 +59,21 @@ export default function LoginForm() {
           disabled={loading}
         />
       </div>
-      {error && <p className="text-red-500 text-sm font-dm-sans">{error}</p>}
       <Button type="submit" className="w-full mt-2" disabled={loading}>
         {loading ? "Signing in..." : "Sign In"}
       </Button>
+        <div>
+          <p className="text-red-500 text-sm font-dm-sans">{error}</p>
+          <p className="text-sm mt-2">
+            Don&apos;t have an account?{" "}
+            <a
+              href="/signup"
+              className="text-grey-600 underline hover:text-blue-800"
+            >
+              Sign up
+            </a>
+          </p>
+        </div>
     </form>
   );
 }
