@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, Suspense } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { motion } from 'framer-motion';
 import { useShoppingCart } from '@/context/ShoppingCartContext';
@@ -26,6 +26,14 @@ import kbzpay from '@/public/payment/kbz.png';
 import { toast } from 'sonner';
 
 export default function CheckoutPage() {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <CheckoutContent />
+    </Suspense>
+  );
+}
+
+function CheckoutContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const selectedPayment = searchParams.get('payment');
