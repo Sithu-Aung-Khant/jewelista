@@ -6,7 +6,7 @@ import { motion } from 'framer-motion';
 import { useShoppingCart } from '@/context/ShoppingCartContext';
 import { Button } from '@/components/ui/button';
 import { Loader2, X } from 'lucide-react';
-import { products } from '@/lib/products';
+import { products } from '@/app/lib/products';
 import { Textarea } from '@/components/ui/textarea';
 import Image from 'next/image';
 import {

@@ -2,7 +2,7 @@
 
 import { Button } from '@/components/ui/button';
 import { useShoppingCart } from '@/context/ShoppingCartContext';
-import { products } from '@/lib/products';
+import { products } from '@/app/lib/products';
 import { motion } from 'framer-motion';
 import { Trash2 } from 'lucide-react';
 import Image from 'next/image';

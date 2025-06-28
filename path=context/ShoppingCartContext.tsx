@@ -1,7 +1,7 @@
 import { useState } from 'react';
 
 const CART_STORAGE_KEY = 'cart_items';
-import { products } from '@/lib/products';
+import { products } from '@/app/lib/products';
 
 interface CartItem {
   id: number;

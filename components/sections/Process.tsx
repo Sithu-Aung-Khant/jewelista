@@ -2,7 +2,7 @@
 
 import Image from 'next/image';
 import { motion } from 'framer-motion';
-import { processSteps } from '@/lib/processSteps';
+import { processSteps } from '@/app/lib/processSteps';
 
 export default function Process() {
   return (

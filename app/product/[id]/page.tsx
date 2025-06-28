@@ -1,6 +1,6 @@
 'use client';
 
-import { products } from '@/lib/products';
+import { products } from '@/app/lib/products';
 import Image from 'next/image';
 import { notFound } from 'next/navigation';
 import { useState } from 'react';

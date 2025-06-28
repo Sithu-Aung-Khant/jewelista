@@ -7,7 +7,7 @@ import useEmblaCarousel, {
 import Next from '@/public/icons/next.svg';
 import Image from 'next/image';
 
-import { cn } from '@/lib/utils';
+import { cn } from '@/app/lib/utils';
 import { Button } from '@/components/ui/button';
 
 type CarouselApi = UseEmblaCarouselType[1];

@@ -3,7 +3,7 @@
 import { motion } from 'framer-motion';
 import { FooterColumn } from '../footer/FooterColumn';
 import { FooterLink } from '../footer/FooterLink';
-import { footerLinks } from '../../lib/footerLinks';
+import { footerLinks } from '../../app/lib/footerLinks';
 import { TermsAndConditions } from '../global/TermsAndConditions';
 import { KeepInTouch } from '../footer/KeepInTouch';
 

@@ -1,6 +1,6 @@
-import Image from "next/image";
-import { motion } from "framer-motion";
-import { Testimonial } from "../../lib/types";
+import Image from 'next/image';
+import { motion } from 'framer-motion';
+import { Testimonial } from '../../app/lib/types';
 
 interface TestimonialCardProps {
   testimonial: Testimonial;

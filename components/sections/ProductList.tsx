@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import {
   Carousel,
@@ -7,14 +7,14 @@ import {
   CarouselItem,
   CarouselNext,
   CarouselPrevious,
-} from "@/components/ui/carousel";
-import { products } from "@/lib/products";
-import { useMediaQuery } from "@react-hook/media-query";
-import { motion } from "framer-motion";
-import { ProductCard } from "../global/ProductCard";
+} from '@/components/ui/carousel';
+import { products } from '@/app/lib/products';
+import { useMediaQuery } from '@react-hook/media-query';
+import { motion } from 'framer-motion';
+import { ProductCard } from '../global/ProductCard';
 
 export default function ProductList() {
-  const isMobile = useMediaQuery("(max-width: 768px)");
+  const isMobile = useMediaQuery('(max-width: 768px)');
 
   return (
     <section className='w-full py-16 px-10 md:px-8'>
@@ -28,7 +28,7 @@ export default function ProductList() {
         >
           Featured Products
         </motion.h2>
-        <Carousel opts={{ align: "start" }} className='w-full relative'>
+        <Carousel opts={{ align: 'start' }} className='w-full relative'>
           <CarouselContent>
             {products.map((product, index) => (
               <CarouselItem key={product.id} className='md:basis-1/4'>

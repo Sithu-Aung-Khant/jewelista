@@ -7,7 +7,7 @@ import {
   ReactNode,
   useContext,
 } from 'react';
-import { products } from '@/lib/products';
+import { products } from '@/app/lib/products';
 
 interface CartItem {
   id: number;

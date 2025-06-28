@@ -2,7 +2,7 @@
 
 import Image from 'next/image';
 import { motion } from 'framer-motion';
-import { whyChooseUsFeatures } from '@/lib/whyChooseUsFeatures';
+import { whyChooseUsFeatures } from '@/app/lib/whyChooseUsFeatures';
 import CircleMobile from '@/public/images/background/circle-mobile.svg';
 import CircleDesktop from '@/public/images/background/circle-desktop.svg';
 

@@ -3,7 +3,7 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
-import { categories } from '@/lib/categories';
+import { categories } from '@/app/lib/categories';
 import BgDesktop from '@/public/images/background/cta-bg-desktop.jpg';
 import BgMobile from '@/public/images/background/cta-bg-mobile.jpg';
 import ShareIcon from '@/public/icons/share.svg';

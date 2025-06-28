@@ -1,5 +1,5 @@
 'use client';
-import { NAV_ITEMS } from '@/lib/navigationItems';
+import { NAV_ITEMS } from '@/app/lib/navigationItems';
 import TbMenu2 from '@/public/icons/TbMenu2.svg';
 import CalendarIcon from '@/public/icons/calendar.svg';
 import HeartIcon from '@/public/icons/heart.svg';

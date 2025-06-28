@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import {
   Carousel,
@@ -7,14 +7,14 @@ import {
   CarouselItem,
   CarouselNext,
   CarouselPrevious,
-} from "@/components/ui/carousel";
-import { testimonials } from "@/lib/testimonials";
-import { useMediaQuery } from "@react-hook/media-query";
-import { motion } from "framer-motion";
-import { TestimonialCard } from "./TestimonialCard";
+} from '@/components/ui/carousel';
+import { testimonials } from '@/app/lib/testimonials';
+import { useMediaQuery } from '@react-hook/media-query';
+import { motion } from 'framer-motion';
+import { TestimonialCard } from './TestimonialCard';
 
 export default function Testimonials() {
-  const isMobile = useMediaQuery("(max-width: 768px)");
+  const isMobile = useMediaQuery('(max-width: 768px)');
 
   return (
     <section className='w-full py-16 px-10 md:px-8'>
@@ -28,7 +28,7 @@ export default function Testimonials() {
         >
           Testimonials
         </motion.h2>
-        <Carousel opts={{ align: "start" }} className='w-full relative'>
+        <Carousel opts={{ align: 'start' }} className='w-full relative'>
           <CarouselContent>
             {testimonials.map((testimonial, index) => (
               <CarouselItem key={testimonial.id} className='md:basis-1/4'>
