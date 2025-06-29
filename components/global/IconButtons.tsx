@@ -9,7 +9,7 @@ import { Power } from 'lucide-react';
 export const ActionButtons = () => (
   <div className='hidden md:flex justify-end w-1/4 gap-x-4 px-4 items-center'>
     <form action={signOutAction}>
-      <button className='flex h-[48px] grow items-center justify-center gap-2 rounded-md bg-gray-50 p-3 text-sm font-medium hover:bg-sky-100 hover:text-blue-600 md:flex-none md:justify-start md:p-2 md:px-3'>
+      <button className='flex  grow items-center justify-center gap-2 rounded-md  p-3 text-sm font-medium md:flex-none md:justify-start md:p-2 md:px-3'>
         <Power className='w-4' />
         <div className='hidden text-xs md:block'>Sign Out</div>
       </button>

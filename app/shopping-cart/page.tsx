@@ -1,16 +1,36 @@
 'use client';
 
+import { products } from '@/app/lib/products';
 import { Button } from '@/components/ui/button';
 import { useShoppingCart } from '@/context/ShoppingCartContext';
-import { products } from '@/app/lib/products';
 import { motion } from 'framer-motion';
-import { Trash2 } from 'lucide-react';
+import { CreditCard, Trash2, Wallet } from 'lucide-react';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
+import { useState } from 'react';
+
+const paymentMethods = [
+  {
+    id: 'credit-card',
+    name: 'Credit, Debit Card',
+    icon: CreditCard,
+  },
+  {
+    id: 'visa-card',
+    name: 'Visa Card',
+    icon: CreditCard,
+  },
+  {
+    id: 'paypal',
+    name: 'PayPal',
+    icon: Wallet,
+  },
+];
 
 export default function ShoppingCartPage() {
   const { cartItems, removeFromCart, updateQuantity, getCartTotal } =
     useShoppingCart();
+  const [selectedPayment, setSelectedPayment] = useState(paymentMethods[0].id);
   const router = useRouter();
 
   const cartProducts = cartItems.map((item) => ({
@@ -19,7 +39,9 @@ export default function ShoppingCartPage() {
   }));
 
   const handleCheckout = async () => {
-    router.push('/checkout');
+    // For demo purposes, we'll just navigate to the checkout page
+    // and pass the selected payment method in the URL
+    router.push(`/checkout?payment=${selectedPayment}`);
   };
 
   if (cartItems.length === 0) {
@@ -89,7 +111,6 @@ export default function ShoppingCartPage() {
                   </div>
 
                   <button
-                    title='Remove from cart'
                     onClick={() => removeFromCart(product.id)}
                     className='text-red-500 hover:text-red-600'
                   >
@@ -108,30 +129,29 @@ export default function ShoppingCartPage() {
               Order Summary
             </h2>
 
-            {/* Shipping Information */}
+            {/* Payment Method Selection */}
             <div className='space-y-3'>
               <h3 className='text-sm font-medium text-gray-700'>
-                Shipping Information
+                Payment Method
               </h3>
-              <div className='p-3 border rounded-lg'>
-                <p className='text-sm text-gray-600'>
-                  Estimated delivery: 3-5 business days
-                </p>
-                <p className='text-sm text-gray-600 mt-1'>
-                  Free shipping on orders over $100
-                </p>
-              </div>
-            </div>
-
-            {/* Promotions Section */}
-            <div className='space-y-3'>
-              <h3 className='text-sm font-medium text-gray-700'>
-                Available Promotions
-              </h3>
-              <div className='p-3 border rounded-lg'>
-                <p className='text-sm text-gray-600'>
-                  Use code &quot;WELCOME10&quot; for 10% off your first order
-                </p>
+              <div className='space-y-2'>
+                {paymentMethods.map(({ id, name, icon: Icon }) => (
+                  <label
+                    key={id}
+                    className='flex items-center gap-3 p-3 border rounded-lg cursor-pointer'
+                  >
+                    <input
+                      type='radio'
+                      name='payment'
+                      value={id}
+                      checked={selectedPayment === id}
+                      onChange={(e) => setSelectedPayment(e.target.value)}
+                      className='text-dark-brown'
+                    />
+                    <Icon className='w-5 h-5' />
+                    <span>{name}</span>
+                  </label>
+                ))}
               </div>
             </div>
 
