@@ -18,7 +18,6 @@ export const NAV_ITEMS: NavItem[] = [
       { label: 'Rings', href: '/jewelry/rings' },
       { label: 'Earrings', href: '/jewelry/earrings' },
       { label: 'Bracelets', href: '/jewelry/bracelets' },
-      { label: 'Watches', href: '/jewelry/watches' },
     ],
   },
   {
@@ -49,7 +48,6 @@ export const NAV_ITEMS: NavItem[] = [
       { label: 'Special Occasions', href: '/gifts/special-occasions' },
     ],
   },
-  { label: 'CUSTOM JEWELRY', href: '/custom-jewelry' },
   { label: 'ABOUT', href: '/about' },
   { label: 'CONTACT US', href: '/contact' },
 ];
