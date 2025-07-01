@@ -26,7 +26,7 @@ export default function Hero() {
           priority
         />
         <Image
-          src='/images/background/hero-bg-mobile.jpg'
+          src='/images/background/hero-bg-mobile-remove.jpg'
           alt='Hero Background Mobile'
           unoptimized
           width={768}

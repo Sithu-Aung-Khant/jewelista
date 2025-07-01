@@ -1,14 +1,13 @@
 'use client';
 
 import { useState, Suspense } from 'react';
-import { useRouter, useSearchParams } from 'next/navigation';
+import { useRouter } from 'next/navigation';
 import { motion } from 'framer-motion';
 import { useShoppingCart } from '@/context/ShoppingCartContext';
 import { Button } from '@/components/ui/button';
-import { Loader2, X } from 'lucide-react';
+import { Loader2, CreditCard, Lock, Info } from 'lucide-react';
 import { products } from '@/app/lib/products';
 import { Textarea } from '@/components/ui/textarea';
-import Image from 'next/image';
 import {
   AlertDialog,
   AlertDialogAction,
@@ -20,9 +19,7 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from '@/components/ui/alert-dialog';
-import ayapay from '@/public/payment/aya.jpeg';
-import cbpay from '@/public/payment/cb.jpeg';
-import kbzpay from '@/public/payment/kbz.png';
+
 import { toast } from 'sonner';
 
 export default function CheckoutPage() {
@@ -35,8 +32,6 @@ export default function CheckoutPage() {
 
 function CheckoutContent() {
   const router = useRouter();
-  const searchParams = useSearchParams();
-  const selectedPayment = searchParams.get('payment');
   const { cartItems, getCartTotal, clearCart } = useShoppingCart();
   const [isLoading, setIsLoading] = useState(false);
   const [formData, setFormData] = useState({
@@ -47,13 +42,14 @@ function CheckoutContent() {
     postalCode: '',
     country: '',
   });
+  const [cardData, setCardData] = useState({
+    cardNumber: '',
+    cardholderName: '',
+    expiryDate: '',
+    cvv: '',
+  });
   const [formErrors, setFormErrors] = useState<Record<string, string>>({});
-  const [paymentStatus, setPaymentStatus] = useState<'pending' | 'completed'>(
-    'pending'
-  );
-  const [selectedPaymentMethod, setSelectedPaymentMethod] = useState<
-    string | null
-  >(null);
+  const [cardErrors, setCardErrors] = useState<Record<string, string>>({});
   const [promoCode, setPromoCode] = useState('');
   const [isPromoValid, setIsPromoValid] = useState(false);
   const [promoError, setPromoError] = useState('');
@@ -87,6 +83,35 @@ function CheckoutContent() {
     return Object.keys(errors).length === 0;
   };
 
+  const validateCard = () => {
+    const errors: Record<string, string> = {};
+
+    if (!cardData.cardNumber.trim()) {
+      errors.cardNumber = 'Card number is required';
+    } else if (!/^\d{16}$/.test(cardData.cardNumber.replace(/\s/g, ''))) {
+      errors.cardNumber = 'Please enter a valid 16-digit card number';
+    }
+
+    if (!cardData.cardholderName.trim()) {
+      errors.cardholderName = 'Cardholder name is required';
+    }
+
+    if (!cardData.expiryDate.trim()) {
+      errors.expiryDate = 'Expiry date is required';
+    } else if (!/^\d{2}\/\d{2}$/.test(cardData.expiryDate)) {
+      errors.expiryDate = 'Please enter expiry date in MM/YY format';
+    }
+
+    if (!cardData.cvv.trim()) {
+      errors.cvv = 'CVV is required';
+    } else if (!/^\d{3,4}$/.test(cardData.cvv)) {
+      errors.cvv = 'Please enter a valid CVV';
+    }
+
+    setCardErrors(errors);
+    return Object.keys(errors).length === 0;
+  };
+
   const handleInputChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
@@ -104,6 +129,40 @@ function CheckoutContent() {
     }
   };
 
+  const handleCardInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    let formattedValue = value;
+
+    // Format card number with spaces
+    if (name === 'cardNumber') {
+      formattedValue = value
+        .replace(/\s/g, '')
+        .replace(/(\d{4})/g, '$1 ')
+        .trim();
+    }
+
+    // Format expiry date
+    if (name === 'expiryDate') {
+      formattedValue = value
+        .replace(/\D/g, '')
+        .replace(/(\d{2})(\d)/, '$1/$2')
+        .substring(0, 5);
+    }
+
+    setCardData((prev) => ({
+      ...prev,
+      [name]: formattedValue,
+    }));
+
+    // Clear error when user starts typing
+    if (cardErrors[name]) {
+      setCardErrors((prev) => ({
+        ...prev,
+        [name]: '',
+      }));
+    }
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
@@ -114,39 +173,31 @@ function CheckoutContent() {
       return;
     }
 
-    if (paymentStatus !== 'completed') {
-      toast.error('Payment Required', {
-        description:
-          'Please select a payment method and complete the payment before proceeding.',
+    if (!validateCard()) {
+      toast.error('Card Validation Error', {
+        description: 'Please fill in all card details correctly.',
       });
       return;
     }
 
     setIsLoading(true);
 
-    // Simulate API call delay
+    // Simulate payment processing
     setTimeout(() => {
-      // Generate a mock order ID
-      const mockOrderId = `ORD-${Date.now()}-${Math.random()
-        .toString(36)
-        .substr(2, 9)}`;
-      clearCart(); // Clear the cart
-      router.push(`/checkout/confirmation/${mockOrderId}`);
-    }, 1500);
-  };
+      toast.success('Payment Processed Successfully', {
+        description:
+          'Your payment has been processed. Completing your order...',
+      });
 
-  const handlePaymentMethodSelect = (method: string) => {
-    setSelectedPaymentMethod(method);
-    toast.info('Payment Method Selected', {
-      description: `Please scan the QR code with ${method} to complete your payment.`,
-    });
-  };
-
-  const handlePaymentComplete = () => {
-    setPaymentStatus('completed');
-    toast.success('Payment Completed', {
-      description: 'You can now proceed to complete your order.',
-    });
+      // Generate a mock order ID and complete order
+      setTimeout(() => {
+        const mockOrderId = `ORD-${Date.now()}-${Math.random()
+          .toString(36)
+          .substr(2, 9)}`;
+        clearCart(); // Clear the cart
+        router.push(`/checkout/confirmation/${mockOrderId}`);
+      }, 1000);
+    }, 2000);
   };
 
   const calculateDiscount = () => {
@@ -400,193 +451,219 @@ function CheckoutContent() {
 
                   <div className='flex justify-between text-sm text-gray-600 mt-2'>
                     <span>Payment Method</span>
-                    <span className='capitalize'>
-                      {selectedPayment?.replace('-', ' ')}
-                    </span>
+                    <span className='capitalize'>Credit/Debit Card</span>
                   </div>
                 </div>
               </div>
             </div>
 
             <div className='bg-white p-6 rounded-lg border border-border-brown'>
-              <h2 className='text-xl font-playfair-display text-dark-brown mb-4'>
-                Payment Method
-              </h2>
-
-              <div className='mb-4'>
-                <p className='text-sm text-gray-600 mb-3'>
-                  Select your payment method and scan the QR code to complete
-                  the payment
-                </p>
+              {/* Payment Information Button */}
+              <div className='bg-white mb-4 rounded-lg'>
+                {cardData.cardNumber && (
+                  <div className='bg-gray-100 p-4 rounded-md'>
+                    <p className='text-sm text-gray-600 mb-2'>
+                      Saved Payment Method:
+                    </p>
+                    <p className='text-sm font-medium'>
+                      •••• •••• •••• {cardData.cardNumber.slice(-4)}
+                    </p>
+                    <p className='text-sm text-gray-600'>
+                      Expires: {cardData.expiryDate}
+                    </p>
+                  </div>
+                )}
               </div>
-
-              <div className='flex flex-wrap gap-4'>
-                {/* KBZ Pay */}
-                <AlertDialog>
-                  <AlertDialogTrigger asChild>
-                    <div
-                      className={`cursor-pointer p-2 rounded-lg border ${
-                        selectedPaymentMethod === 'KBZ Pay'
-                          ? 'border-dark-brown bg-gray-50'
-                          : 'border-border-brown hover:bg-gray-50'
-                      }`}
-                      onClick={() => handlePaymentMethodSelect('KBZ Pay')}
-                    >
-                      <Image
-                        src={kbzpay}
-                        alt='KBZ Pay'
-                        width={80}
-                        height={80}
-                        className='w-12 h-auto rounded-lg'
-                      />
-                    </div>
-                  </AlertDialogTrigger>
-                  <AlertDialogContent>
-                    <AlertDialogHeader className='flex flex-row justify-between items-center'>
-                      <AlertDialogTitle>KBZ Pay QR Code</AlertDialogTitle>
-                      <AlertDialogCancel className='p-2 border hover:bg-gray-200 border-gray-50'>
-                        <X className='h-5 w-5' />
-                      </AlertDialogCancel>
-                    </AlertDialogHeader>
-                    <AlertDialogDescription>
-                      <div className='bg-white rounded-lg border border-gray-100 p-4'>
-                        <Image
-                          src='/scan/kbz.jpg'
-                          alt='KBZ Pay QR Code'
-                          width={300}
-                          height={300}
-                          className='w-full rounded-lg'
-                        />
-                        <p className='mt-4 text-sm text-gray-600 text-center'>
-                          Scan this QR code with KBZ Pay to complete the payment
-                        </p>
-                      </div>
+              <AlertDialog>
+                <AlertDialogTrigger asChild>
+                  <Button
+                    variant='outline'
+                    className='border-dark-brown w-full text-dark-brown hover:bg-dark-brown hover:text-white'
+                  >
+                    <Info className='w-4 h-4 mr-2' />
+                    Enter Your Payment Card Info
+                  </Button>
+                </AlertDialogTrigger>
+                <AlertDialogContent className='max-w-md'>
+                  <AlertDialogHeader>
+                    <AlertDialogTitle className='text-xl font-playfair-display text-dark-brown flex items-center gap-2'>
+                      <CreditCard className='w-5 h-5' />
+                      Payment Information
+                    </AlertDialogTitle>
+                    <AlertDialogDescription className='text-left'>
+                      Please enter your payment details to complete your order.
                     </AlertDialogDescription>
-                    <AlertDialogFooter>
-                      <AlertDialogAction onClick={handlePaymentComplete}>
-                        I&apos;ve Completed the Payment
-                      </AlertDialogAction>
-                    </AlertDialogFooter>
-                  </AlertDialogContent>
-                </AlertDialog>
+                  </AlertDialogHeader>
 
-                {/* CB Pay */}
-                <AlertDialog>
-                  <AlertDialogTrigger asChild>
-                    <div
-                      className={`cursor-pointer p-2 rounded-lg border ${
-                        selectedPaymentMethod === 'CB Pay'
-                          ? 'border-dark-brown bg-gray-50'
-                          : 'border-border-brown hover:bg-gray-50'
-                      }`}
-                      onClick={() => handlePaymentMethodSelect('CB Pay')}
-                    >
-                      <Image
-                        src={cbpay}
-                        alt='CB Pay'
-                        width={80}
-                        height={80}
-                        className='w-12 h-auto rounded-lg'
+                  <div className='space-y-4 mt-4'>
+                    <div className='space-y-2'>
+                      <label
+                        htmlFor='dialogCardNumber'
+                        className='text-sm font-medium text-gray-700'
+                      >
+                        Card Number <span className='text-red-500'>*</span>
+                      </label>
+                      <input
+                        type='text'
+                        id='dialogCardNumber'
+                        name='cardNumber'
+                        required
+                        value={cardData.cardNumber}
+                        onChange={handleCardInputChange}
+                        placeholder='1234 5678 9012 3456'
+                        maxLength={19}
+                        className={`w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-dark-brown ${
+                          cardErrors.cardNumber
+                            ? 'border-red-500'
+                            : 'border-gray-300'
+                        }`}
                       />
-                    </div>
-                  </AlertDialogTrigger>
-                  <AlertDialogContent className='max-w-md'>
-                    <AlertDialogHeader className='flex flex-row justify-between items-center'>
-                      <AlertDialogTitle>CB Pay QR Code</AlertDialogTitle>
-                      <AlertDialogCancel className='p-2 border hover:bg-gray-200 border-gray-50'>
-                        <X className='h-5 w-5' />
-                      </AlertDialogCancel>
-                    </AlertDialogHeader>
-                    <AlertDialogDescription className=''>
-                      <div className='bg-white rounded-lg border border-border-brown p-4'>
-                        <Image
-                          src='/scan/cb-copy.jpg'
-                          alt='CB Pay QR Code'
-                          width={300}
-                          height={300}
-                          className='rounded-lg w-full'
-                        />
-                        <p className='text-sm mt-4 text-gray-600 text-center'>
-                          Scan this QR code with CB Pay to complete the payment
+                      {cardErrors.cardNumber && (
+                        <p className='text-sm text-red-500'>
+                          {cardErrors.cardNumber}
                         </p>
-                      </div>
-                    </AlertDialogDescription>
-                    <AlertDialogFooter>
-                      <AlertDialogAction onClick={handlePaymentComplete}>
-                        I&apos;ve Completed the Payment
-                      </AlertDialogAction>
-                    </AlertDialogFooter>
-                  </AlertDialogContent>
-                </AlertDialog>
+                      )}
+                    </div>
 
-                {/* AYA Pay */}
-                <AlertDialog>
-                  <AlertDialogTrigger asChild>
-                    <div
-                      className={`cursor-pointer p-2 rounded-lg border ${
-                        selectedPaymentMethod === 'AYA Pay'
-                          ? 'border-dark-brown bg-gray-50'
-                          : 'border-border-brown hover:bg-gray-50'
-                      }`}
-                      onClick={() => handlePaymentMethodSelect('AYA Pay')}
-                    >
-                      <Image
-                        src={ayapay}
-                        alt='AYA Pay'
-                        width={80}
-                        height={80}
-                        className='w-12 h-auto rounded-lg'
+                    <div className='space-y-2'>
+                      <label
+                        htmlFor='dialogCardholderName'
+                        className='text-sm font-medium text-gray-700'
+                      >
+                        Cardholder Name <span className='text-red-500'>*</span>
+                      </label>
+                      <input
+                        type='text'
+                        id='dialogCardholderName'
+                        name='cardholderName'
+                        required
+                        value={cardData.cardholderName}
+                        onChange={handleCardInputChange}
+                        placeholder='John Doe'
+                        className={`w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-dark-brown ${
+                          cardErrors.cardholderName
+                            ? 'border-red-500'
+                            : 'border-gray-300'
+                        }`}
                       />
-                    </div>
-                  </AlertDialogTrigger>
-                  <AlertDialogContent className='max-w-md'>
-                    <AlertDialogHeader className='flex flex-row justify-between items-center'>
-                      <AlertDialogTitle>AYA Pay QR Code</AlertDialogTitle>
-                      <AlertDialogCancel className='p-2 border hover:bg-gray-200 border-gray-50'>
-                        <X className='h-5 w-5' />
-                      </AlertDialogCancel>
-                    </AlertDialogHeader>
-                    <AlertDialogDescription>
-                      <div className='bg-white rounded-lg border border-border-brown p-4'>
-                        <Image
-                          src='/scan/aya-copy.jpg'
-                          alt='AYA Pay QR Code'
-                          width={300}
-                          height={300}
-                          className='w-full rounded-lg'
-                        />
-                        <p className='mt-4 text-sm text-gray-600 text-center'>
-                          Scan this QR code with AYA Pay to complete the payment
+                      {cardErrors.cardholderName && (
+                        <p className='text-sm text-red-500'>
+                          {cardErrors.cardholderName}
                         </p>
-                      </div>
-                    </AlertDialogDescription>
-                    <AlertDialogFooter>
-                      <AlertDialogAction onClick={handlePaymentComplete}>
-                        I&apos;ve Completed the Payment
-                      </AlertDialogAction>
-                    </AlertDialogFooter>
-                  </AlertDialogContent>
-                </AlertDialog>
-              </div>
-
-              <div className='mt-6'>
-                <Button
-                  onClick={handleSubmit}
-                  disabled={isLoading || paymentStatus !== 'completed'}
-                  className='w-full bg-dark-brown hover:bg-dark-brown/90 text-white'
-                >
-                  {isLoading ? (
-                    <div className='flex items-center justify-center'>
-                      <Loader2 className='mr-2 h-4 w-4 animate-spin' />
-                      Processing...
+                      )}
                     </div>
-                  ) : paymentStatus !== 'completed' ? (
-                    'Complete Payment First'
-                  ) : (
-                    'Complete Order'
-                  )}
-                </Button>
-              </div>
+
+                    <div className='grid grid-cols-2 gap-4'>
+                      <div className='space-y-2'>
+                        <label
+                          htmlFor='dialogExpiryDate'
+                          className='text-sm font-medium text-gray-700'
+                        >
+                          Expiry Date <span className='text-red-500'>*</span>
+                        </label>
+                        <input
+                          type='text'
+                          id='dialogExpiryDate'
+                          name='expiryDate'
+                          required
+                          value={cardData.expiryDate}
+                          onChange={handleCardInputChange}
+                          placeholder='MM/YY'
+                          maxLength={5}
+                          className={`w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-dark-brown ${
+                            cardErrors.expiryDate
+                              ? 'border-red-500'
+                              : 'border-gray-300'
+                          }`}
+                        />
+                        {cardErrors.expiryDate && (
+                          <p className='text-sm text-red-500'>
+                            {cardErrors.expiryDate}
+                          </p>
+                        )}
+                      </div>
+
+                      <div className='space-y-2'>
+                        <label
+                          htmlFor='dialogCvv'
+                          className='text-sm font-medium text-gray-700'
+                        >
+                          CVV <span className='text-red-500'>*</span>
+                        </label>
+                        <input
+                          type='text'
+                          id='dialogCvv'
+                          name='cvv'
+                          required
+                          value={cardData.cvv}
+                          onChange={handleCardInputChange}
+                          placeholder='123'
+                          maxLength={4}
+                          className={`w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-dark-brown ${
+                            cardErrors.cvv
+                              ? 'border-red-500'
+                              : 'border-gray-300'
+                          }`}
+                        />
+                        {cardErrors.cvv && (
+                          <p className='text-sm text-red-500'>
+                            {cardErrors.cvv}
+                          </p>
+                        )}
+                      </div>
+                    </div>
+
+                    <div className='flex items-center gap-2 text-sm text-gray-600 mt-4'>
+                      <Lock className='w-4 h-4' />
+                      <span>
+                        Your payment information is secure and encrypted
+                      </span>
+                    </div>
+                  </div>
+
+                  <AlertDialogFooter className='mt-6'>
+                    <AlertDialogCancel>Cancel</AlertDialogCancel>
+                    <AlertDialogAction
+                      className='bg-dark-brown hover:bg-dark-brown/90 text-white'
+                      onClick={() => {
+                        if (validateCard()) {
+                          toast.success(
+                            'Payment information saved successfully!'
+                          );
+                        } else {
+                          toast.error(
+                            'Please fill in all card details correctly.'
+                          );
+                        }
+                      }}
+                    >
+                      Save Payment Info
+                    </AlertDialogAction>
+                  </AlertDialogFooter>
+                </AlertDialogContent>
+              </AlertDialog>
+
+              <Button
+                onClick={handleSubmit}
+                disabled={isLoading}
+                className='w-full bg-dark-brown mt-4 hover:bg-dark-brown/90 text-white'
+              >
+                {isLoading ? (
+                  <div className='flex items-center justify-center'>
+                    <Loader2 className='mr-2 h-4 w-4 animate-spin' />
+                    Processing Payment...
+                  </div>
+                ) : (
+                  `Pay $${(
+                    getCartTotal() - calculateDiscount()
+                  ).toLocaleString()}`
+                )}
+              </Button>
+
+              <p className='text-xs text-gray-500 text-center mt-3'>
+                By completing your purchase, you agree to our Terms of Service
+                and Privacy Policy
+              </p>
             </div>
           </div>
         </div>
