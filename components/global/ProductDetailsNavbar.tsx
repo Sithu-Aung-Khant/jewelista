@@ -24,7 +24,7 @@ export function ProductDetailsNavbar() {
               className='relative'
             >
               <h1 className='text-2xl font-playfair-display text-dark-brown'>
-                MyJewel
+                Jewelista
               </h1>
             </motion.div>
           </Link>
