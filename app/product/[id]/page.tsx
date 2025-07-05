@@ -79,7 +79,7 @@ export default function ProductPage({ params }: { params: { id: string } }) {
                 {product.name}
               </h1>
               <p className='text-xl font-semibold text-dark-brown'>
-                ${product.price.toLocaleString()}
+                {product.price.toLocaleString()} MMK
               </p>
             </div>
 

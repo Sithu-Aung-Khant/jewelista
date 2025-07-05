@@ -36,6 +36,7 @@ export default function ProductList() {
                   product={product}
                   index={index}
                   isMobile={isMobile}
+                  truncateName
                 />
               </CarouselItem>
             ))}

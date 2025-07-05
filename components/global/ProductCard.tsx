@@ -19,9 +19,15 @@ interface ProductCardProps {
   product: Product;
   index: number;
   isMobile: boolean;
+  truncateName?: boolean;
 }
 
-export function ProductCard({ product, index, isMobile }: ProductCardProps) {
+export function ProductCard({
+  product,
+  index,
+  isMobile,
+  truncateName = false,
+}: ProductCardProps) {
   return (
     <Link href={`/product/${product.id}`}>
       <motion.div
@@ -45,7 +51,11 @@ export function ProductCard({ product, index, isMobile }: ProductCardProps) {
           />
         </div>
         <div className='text-center'>
-          <h3 className='font-medium text-dark-brown text-lg mb-2'>
+          <h3
+            className={`font-medium text-dark-brown text-lg mb-2 ${
+              truncateName ? 'truncate' : ''
+            }`}
+          >
             {product.name}
           </h3>
           <p className='text-[#505050] text-sm mb-2'>{product.material}</p>

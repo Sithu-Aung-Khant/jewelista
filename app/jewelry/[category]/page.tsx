@@ -2,12 +2,13 @@
 
 import { useState, useEffect } from 'react';
 import { useParams } from 'next/navigation';
-import Navbar from '@/components/global/navbar';
+// import Navbar from '@/components/global/navbar';
 import Footer from '@/components/sections/Footer';
 import { products } from '@/app/lib/products';
 import { useMediaQuery } from '@react-hook/media-query';
 import { motion } from 'framer-motion';
 import { ProductCard } from '@/components/global/ProductCard';
+import Navigation from '../../../components/global/Navigation';
 
 export default function CategoryPage() {
   const [isLoading, setIsLoading] = useState(true);
@@ -46,11 +47,12 @@ export default function CategoryPage() {
 
   return (
     <main className=''>
-      <Navbar />
-      <section className='w-full py-16 px-10 md:px-8'>
+      {/* <Navbar /> */}
+      <Navigation />
+      <section className='w-full pb-16 pt-32 px-10 md:px-8'>
         <div className='max-w-7xl mx-auto'>
           <motion.h2
-            className='text-4xl mb-10 text-center font-playfair-display'
+            className='text-4xl mb-16 text-center font-playfair-display'
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
@@ -71,6 +73,7 @@ export default function CategoryPage() {
                   product={product}
                   index={index}
                   isMobile={isMobile}
+                  truncateName
                 />
               </motion.div>
             ))}
