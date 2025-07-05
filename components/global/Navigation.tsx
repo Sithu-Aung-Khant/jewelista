@@ -74,7 +74,7 @@ const Navigation = () => (
         </motion.div>
       ))}
     </div>
-    <div className='flex h-full w-1/4 md:hover:cursor-pointer md:pr-8 md:pl-4 pr-2 py-3 md:border-l-2 md:w-max justify-end items-center gap-x-2.5'>
+    <div className='flex h-full w-1/4 md:hover:cursor-pointer md:pr-8 md:pl-4 pr-2 py-3 md:w-max justify-end items-center gap-x-2.5'>
       <IconButton
         icon={HeartIcon}
         alt='heart icon'
@@ -89,13 +89,17 @@ const Navigation = () => (
         ariaLabel='View Shopping Cart'
         className='size-4 md:hidden'
       />
-      <IconButton
+      {/* <IconButton
         icon={SearchIcon}
         alt='heart icon'
         title='Wishlist'
         ariaLabel='Add to Wishlist'
         className='size-6 -mb-0.5'
-      />
+      /> */}
+
+    <Link href='/' className='flex-shrink-0 opacity-0 py-3'>
+      <span className='text-4xl font-playfair-display'>Jewelista</span>
+    </Link>
     </div>
   </motion.nav>
 );

@@ -15,7 +15,7 @@ const Announcement = () => {
       <div className='hidden md:flex items-center w-1/4 gap-x-2 px-4'>
         <AppointmentButton />
       </div>
-      <div>
+      <div className='flex items-center'>
         <span className='inline-block mx-2'>•</span>
         <span className='w-max md:text-[11px] tracking-wide'>
           Exclusive Collection Launch: Discover Timeless Elegance Today

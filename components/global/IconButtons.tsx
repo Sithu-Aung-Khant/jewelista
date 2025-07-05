@@ -9,8 +9,8 @@ import { Power } from 'lucide-react';
 export const ActionButtons = () => (
   <div className='hidden md:flex justify-end w-1/4 gap-x-4 px-4 items-center'>
     <form action={signOutAction}>
-      <button className='flex  grow items-center justify-center gap-2 rounded-md  p-3 text-sm font-medium md:flex-none md:justify-start md:p-2 md:px-3'>
-        <Power className='w-4' />
+      <button className='flex grow items-center justify-center gap-2 rounded-md text-sm font-medium md:flex-none md:justify-start md:p-2 md:px-3'>
+        <Power className='w-3' />
         <div className='hidden text-xs md:block'>Sign Out</div>
       </button>
     </form>
@@ -20,13 +20,6 @@ export const ActionButtons = () => (
       title='Book Appointment'
       ariaLabel='Book Appointment'
       className='size-[1.2rem]'
-    />
-    <IconButton
-      icon={HeartIcon}
-      alt='heart icon'
-      title='Wishlist'
-      ariaLabel='Add to Wishlist'
-      className='size-[1.2rem] mt-px'
     />
     <IconButton
       icon={ShopIcon}

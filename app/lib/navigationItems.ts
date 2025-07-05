@@ -14,6 +14,7 @@ export const NAV_ITEMS: NavItem[] = [
     href: '/jewelry',
     hasDropdown: true,
     subcategories: [
+      { label: 'All', href: '/jewelry' },
       { label: 'Necklaces', href: '/jewelry/necklaces' },
       { label: 'Rings', href: '/jewelry/rings' },
       { label: 'Earrings', href: '/jewelry/earrings' },
@@ -25,29 +26,15 @@ export const NAV_ITEMS: NavItem[] = [
     href: '/love-and-engagement',
     hasDropdown: true,
     subcategories: [
+      { label: 'All', href: '/love-and-engagement' }, 
       {
         label: 'Engagement Rings',
         href: '/love-and-engagement/engagement-rings',
       },
-      { label: 'Wedding Bands', href: '/love-and-engagement/wedding-bands' },
-      { label: 'Bridal Sets', href: '/love-and-engagement/bridal-sets' },
-      {
-        label: 'Anniversary Rings',
-        href: '/love-and-engagement/anniversary-rings',
-      },
+      { label: 'Wedding Rings', href: '/love-and-engagement/wedding-rings' },
     ],
   },
-  {
-    label: 'GIFTS',
-    href: '/gifts',
-    hasDropdown: true,
-    subcategories: [
-      { label: 'Birthday', href: '/gifts/birthday' },
-      { label: 'Anniversary', href: '/gifts/anniversary' },
-      { label: "Valentine's Day", href: '/gifts/valentines-day' },
-      { label: 'Special Occasions', href: '/gifts/special-occasions' },
-    ],
-  },
-  { label: 'ABOUT', href: '/about' },
+
+  // { label: 'ABOUT', href: '/about' },
   { label: 'CONTACT US', href: '/contact' },
 ];
