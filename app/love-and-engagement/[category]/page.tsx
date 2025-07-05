@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import { useParams } from 'next/navigation';
 import Navbar from '@/components/global/navbar';
 import Footer from '@/components/sections/Footer';
 import { products } from '@/app/lib/products';
@@ -16,8 +17,10 @@ import {
   CarouselPrevious,
 } from '@/components/ui/carousel';
 
-export default function BraceletsPage() {
+export default function LoveAndEngagementCategoryPage() {
   const [isLoading, setIsLoading] = useState(true);
+  const params = useParams();
+  const category = params.category as string;
   const isMobile = useMediaQuery('(max-width: 768px)');
 
   useEffect(() => {
@@ -27,10 +30,37 @@ export default function BraceletsPage() {
     return () => clearTimeout(timer);
   }, []);
 
-  // Filter products to show only bracelets
-  const bracelets = products.filter(
-    (product) => product.category === 'Bracelets'
-  );
+  // Filter products based on category
+  const filteredProducts =
+    category && category !== 'all'
+      ? products.filter((product) => {
+          if (category === 'engagement-rings') {
+            return (
+              product.category === 'Rings' &&
+              product.name.toLowerCase().includes('engagement')
+            );
+          } else if (category === 'wedding-rings') {
+            return (
+              product.category === 'Rings' &&
+              product.name.toLowerCase().includes('wedding')
+            );
+          }
+          return false;
+        })
+      : products.filter(
+          (product) =>
+            product.category === 'Rings' &&
+            (product.name.toLowerCase().includes('engagement') ||
+              product.name.toLowerCase().includes('wedding'))
+        );
+
+  // Format category name for display
+  const formatCategoryName = (cat: string) => {
+    if (cat === 'all') return 'Love & Engagement';
+    if (cat === 'engagement-rings') return 'Engagement Rings';
+    if (cat === 'wedding-rings') return 'Wedding Rings';
+    return cat.charAt(0).toUpperCase() + cat.slice(1);
+  };
 
   if (isLoading) {
     return (
@@ -52,11 +82,11 @@ export default function BraceletsPage() {
             viewport={{ once: true }}
             transition={{ duration: 0.5 }}
           >
-            Bracelets
+            {formatCategoryName(category)}
           </motion.h2>
           <Carousel opts={{ align: 'start' }} className='w-full relative'>
             <CarouselContent>
-              {bracelets.map((product, index) => (
+              {filteredProducts.map((product, index) => (
                 <CarouselItem key={product.id} className='md:basis-1/4'>
                   <ProductCard
                     product={product}

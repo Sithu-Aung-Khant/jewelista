@@ -1,26 +1,18 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { useSearchParams } from 'next/navigation';
+import { useParams } from 'next/navigation';
 import Navbar from '@/components/global/navbar';
 import Footer from '@/components/sections/Footer';
 import { products } from '@/app/lib/products';
 import { useMediaQuery } from '@react-hook/media-query';
 import { motion } from 'framer-motion';
 import { ProductCard } from '@/components/global/ProductCard';
-import {
-  Carousel,
-  CarouselContent,
-  CarouselDots,
-  CarouselItem,
-  CarouselNext,
-  CarouselPrevious,
-} from '@/components/ui/carousel';
 
-export default function JewelryPage() {
+export default function CategoryPage() {
   const [isLoading, setIsLoading] = useState(true);
-  const searchParams = useSearchParams();
-  const category = searchParams.get('category');
+  const params = useParams();
+  const category = params.category as string;
   const isMobile = useMediaQuery('(max-width: 768px)');
 
   useEffect(() => {
@@ -32,9 +24,17 @@ export default function JewelryPage() {
 
   // Filter products based on category
   const filteredProducts =
-    category && category !== 'All'
-      ? products.filter((product) => product.category === category)
+    category && category !== 'all'
+      ? products.filter(
+          (product) => product.category.toLowerCase() === category
+        )
       : products;
+
+  // Format category name for display
+  const formatCategoryName = (cat: string) => {
+    if (cat === 'all') return 'All Jewelry';
+    return cat.charAt(0).toUpperCase() + cat.slice(1);
+  };
 
   if (isLoading) {
     return (
@@ -56,24 +56,25 @@ export default function JewelryPage() {
             viewport={{ once: true }}
             transition={{ duration: 0.5 }}
           >
-            {category && category !== 'All' ? `${category}` : 'All Jewelry'}
+            {formatCategoryName(category)}
           </motion.h2>
-          <Carousel opts={{ align: 'start' }} className='w-full relative'>
-            <CarouselContent>
-              {filteredProducts.map((product, index) => (
-                <CarouselItem key={product.id} className='md:basis-1/4'>
-                  <ProductCard
-                    product={product}
-                    index={index}
-                    isMobile={isMobile}
-                  />
-                </CarouselItem>
-              ))}
-            </CarouselContent>
-            <CarouselPrevious className='absolute left-0 top-1/2 -translate-y-1/2 -translate-x-1/2' />
-            <CarouselNext className='absolute right-0 top-1/2 -translate-y-1/2 translate-x-1/2' />
-            <CarouselDots className='mt-10' />
-          </Carousel>
+          <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6'>
+            {filteredProducts.map((product, index) => (
+              <motion.div
+                key={product.id}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.5, delay: index * 0.1 }}
+              >
+                <ProductCard
+                  product={product}
+                  index={index}
+                  isMobile={isMobile}
+                />
+              </motion.div>
+            ))}
+          </div>
         </div>
       </section>
       <Footer />

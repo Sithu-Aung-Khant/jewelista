@@ -11,10 +11,10 @@ export type NavItem = {
 export const NAV_ITEMS: NavItem[] = [
   {
     label: 'JEWELRY',
-    href: '/jewelry',
+    href: '/jewelry/all',
     hasDropdown: true,
     subcategories: [
-      { label: 'All', href: '/jewelry' },
+      { label: 'All', href: '/jewelry/all' },
       { label: 'Necklaces', href: '/jewelry/necklaces' },
       { label: 'Rings', href: '/jewelry/rings' },
       { label: 'Earrings', href: '/jewelry/earrings' },
@@ -23,10 +23,10 @@ export const NAV_ITEMS: NavItem[] = [
   },
   {
     label: 'LOVE AND ENGAGEMENT',
-    href: '/love-and-engagement',
+    href: '/love-and-engagement/all',
     hasDropdown: true,
     subcategories: [
-      { label: 'All', href: '/love-and-engagement' }, 
+      { label: 'All', href: '/love-and-engagement/all' },
       {
         label: 'Engagement Rings',
         href: '/love-and-engagement/engagement-rings',
