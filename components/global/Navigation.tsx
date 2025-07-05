@@ -3,7 +3,7 @@ import { NAV_ITEMS } from '@/app/lib/navigationItems';
 import TbMenu2 from '@/public/icons/TbMenu2.svg';
 import CalendarIcon from '@/public/icons/calendar.svg';
 import HeartIcon from '@/public/icons/heart.svg';
-import SearchIcon from '@/public/icons/search.svg';
+// import SearchIcon from '@/public/icons/search.svg';
 import ShopIcon from '@/public/icons/shop.svg';
 import { motion } from 'framer-motion';
 import { ChevronDown } from 'lucide-react';
@@ -97,9 +97,9 @@ const Navigation = () => (
         className='size-6 -mb-0.5'
       /> */}
 
-    <Link href='/' className='flex-shrink-0 opacity-0 py-3'>
-      <span className='text-4xl font-playfair-display'>Jewelista</span>
-    </Link>
+      <Link href='/' className='flex-shrink-0 opacity-0 py-3'>
+        <span className='text-4xl font-playfair-display'>Jewelista</span>
+      </Link>
     </div>
   </motion.nav>
 );

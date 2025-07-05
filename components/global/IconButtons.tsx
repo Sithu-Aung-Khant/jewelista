@@ -1,5 +1,5 @@
 import React from 'react';
-import HeartIcon from '@/public/icons/heart.svg';
+// import HeartIcon from '@/public/icons/heart.svg';
 import ShopIcon from '@/public/icons/shop.svg';
 import ProfileIcon from '@/public/icons/user.svg';
 import { IconButton } from './IconButton';

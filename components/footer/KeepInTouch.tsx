@@ -1,6 +1,6 @@
 'use client';
 
-import PaymentMethods from '../global/PaymentMethods';
+// import PaymentMethods from '../global/PaymentMethods';
 import { NewsletterSubscription } from './NewsletterSubscription';
 
 export function KeepInTouch() {
