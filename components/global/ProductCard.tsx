@@ -1,6 +1,6 @@
-import Image from "next/image";
-import { motion } from "framer-motion";
-import Link from "next/link";
+import Image from 'next/image';
+import { motion } from 'framer-motion';
+import Link from 'next/link';
 
 interface Product {
   id: number;
@@ -50,7 +50,7 @@ export function ProductCard({ product, index, isMobile }: ProductCardProps) {
           </h3>
           <p className='text-[#505050] text-sm mb-2'>{product.material}</p>
           <p className='text-dark-brown font-semibold'>
-            ${product.price.toLocaleString()}
+            {product.price.toLocaleString()} MMK
           </p>
           <div className='flex items-center justify-center gap-2 mt-2'>
             <span className='text-yellow-500'>★</span>
