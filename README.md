@@ -1,6 +1,6 @@
-# MyJewel - Luxury Jewelry E-commerce Platform
+# Jewelista - Luxury Jewelry E-commerce Platform
 
-MyJewel is a modern e-commerce platform built with Next.js, offering a seamless shopping experience for luxury jewelry. The project features a responsive design, smooth animations, and an intuitive user interface.
+Jewelista is a modern e-commerce platform built with Next.js, offering a seamless shopping experience for luxury jewelry. The project features a responsive design, smooth animations, and an intuitive user interface.
 
 ## Features
 

@@ -30,7 +30,7 @@ export default function WhyChooseUs() {
             viewport={{ once: true }}
             transition={{ duration: 0.5 }}
           >
-            Why Choose MyJewel?
+            Why Choose Jewelista?
           </motion.h2>
         </div>
         <div className='grid grid-cols-1 md:grid-cols-3 gap-8'>

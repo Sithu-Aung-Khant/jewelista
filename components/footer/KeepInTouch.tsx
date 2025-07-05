@@ -10,7 +10,7 @@ export function KeepInTouch() {
         Let&apos;s Keep In Touch
       </h3>
       <NewsletterSubscription />
-      <PaymentMethods />
+      {/* <PaymentMethods /> */}
     </div>
   );
 }
