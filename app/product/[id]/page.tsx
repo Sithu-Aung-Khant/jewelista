@@ -49,7 +49,7 @@ export default function ProductPage({ params }: { params: { id: string } }) {
     <>
       <ProductDetailsNavbar />
       <div className='container mx-auto px-4 py-8 max-w-7xl'>
-        <div className='grid grid-cols-1 md:grid-cols-2 gap-8'>
+        <div className='grid items-center grid-cols-1 md:grid-cols-2 gap-x-16 gap-y-10'>
           {/* Product Image */}
           <motion.div
             initial={{ opacity: 0, x: -20 }}
