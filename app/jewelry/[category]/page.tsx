@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react';
 import { useParams } from 'next/navigation';
 // import Navbar from '@/components/global/navbar';
-import Footer from '@/components/sections/Footer';
+// import Footer from '@/components/sections/Footer';
 import { products } from '@/app/lib/products';
 import { useMediaQuery } from '@react-hook/media-query';
 import { motion } from 'framer-motion';
