@@ -98,7 +98,7 @@ export default function LoveAndEngagementCategoryPage() {
           </div>
         </div>
       </section>
-      <Footer />
+      {/* <Footer /> */}
     </main>
   );
 }
