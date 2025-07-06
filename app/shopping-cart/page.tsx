@@ -152,13 +152,16 @@ export default function ShoppingCartPage() {
               </div>
 
               {/* Telegram */}
-              <div className='flex items-center gap-3 p-3 bg-gray-50 rounded-lg'>
+              <button
+                onClick={() => window.open('https://t.me/urinzali', '_blank')}
+                className='flex items-center w-full gap-3 p-3 bg-gray-50 rounded-lg'
+              >
                 <Send className='w-5 h-5 text-blue-500' />
                 <div>
                   <p className='font-medium text-dark-brown'>Telegram</p>
                   <p className='text-sm text-gray-600'>@urinzali</p>
                 </div>
-              </div>
+              </button>
 
               {/* Messenger */}
               {/* <div className='flex items-center gap-3 p-3 bg-gray-50 rounded-lg'>
@@ -185,9 +188,7 @@ export default function ShoppingCartPage() {
             {/* Quick Contact Buttons */}
             <div className='space-y-3'>
               <Button
-                onClick={() =>
-                  window.open('https://t.me/your_username', '_blank')
-                }
+                onClick={() => window.open('https://t.me/urinzali', '_blank')}
                 className='w-full text-white'
               >
                 Contact Us

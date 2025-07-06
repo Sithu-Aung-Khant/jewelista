@@ -17,7 +17,7 @@ export const processSteps = [
   {
     title: 'SECURE CHECKOUT',
     description:
-      'Enjoy a smooth and secure checkout process with multiple payment options.',
+      'Contact us via direct message to complete your purchase with personalized assistance.',
   },
   {
     title: 'QUALITY ASSURANCE',
