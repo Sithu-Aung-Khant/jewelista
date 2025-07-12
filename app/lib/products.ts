@@ -687,7 +687,7 @@ export const products = [
     description:
       'Beautiful matching set of silver wedding rings that represent the unity and commitment of marriage.',
     price: 2520000,
-    category: 'Rings',
+    category: 'Wedding Rings',
     material: 'Silver',
     rating: 4.7,
     stock: 8,
@@ -700,7 +700,7 @@ export const products = [
     description:
       'Timeless collection of gold wedding rings that embody tradition, love, and everlasting commitment.',
     price: 4200000,
-    category: 'Rings',
+    category: 'Wedding Rings',
     material: 'Gold',
     rating: 4.9,
     stock: 5,
