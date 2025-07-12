@@ -28,23 +28,16 @@ export default function LoveAndEngagementCategoryPage() {
     category && category !== 'all'
       ? products.filter((product) => {
           if (category === 'engagement-rings') {
-            return (
-              product.category === 'Rings' &&
-              product.name.toLowerCase().includes('engagement')
-            );
+            return product.category === 'Engagement Rings';
           } else if (category === 'wedding-rings') {
-            return (
-              product.category === 'Rings' &&
-              product.name.toLowerCase().includes('wedding')
-            );
+            return product.category === 'Wedding Rings';
           }
           return false;
         })
       : products.filter(
           (product) =>
-            product.category === 'Rings' &&
-            (product.name.toLowerCase().includes('engagement') ||
-              product.name.toLowerCase().includes('wedding'))
+            product.category === 'Engagement Rings' ||
+            product.category === 'Wedding Rings'
         );
 
   // Format category name for display
