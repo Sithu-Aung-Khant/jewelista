@@ -45,20 +45,17 @@ export default function LoginForm() {
           autoComplete='current-password'
           placeholder='••••••••'
           className='bg-white border-border-brown text-dark-brown font-dm-sans'
+          required
         />
       </div>
-      <input type='hidden' name='redirectTo' value={callbackUrl} />
-      <Button className='mt-2 w-full' aria-disabled={false}>
+      <input type='hidden' name='callbackUrl' value={callbackUrl} />
+      <Button type='submit' className='mt-2 w-full'>
         Log in
       </Button>
       <div>
-        <p className='text-red-500 text-sm font-dm-sans'>
-          {errorMessage && (
-            <>
-              <p className='text-sm text-red-500'>{errorMessage}</p>
-            </>
-          )}
-        </p>
+        {errorMessage && (
+          <p className='text-sm text-red-500 font-dm-sans'>{errorMessage}</p>
+        )}
         <p className='text-sm mt-2'>
           Don&apos;t have an account?{' '}
           <a
