@@ -7,7 +7,10 @@ export const authConfig = {
   callbacks: {
     authorized({ auth }) {
       const isLoggedIn = !!auth?.user;
-      return isLoggedIn || true;
+      if (!isLoggedIn) {
+        return false; // Redirect unauthenticated users to the login page
+      }
+      return true;
     },
   },
   providers: [], // Add providers with an empty array for now

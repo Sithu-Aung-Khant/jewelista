@@ -10,7 +10,10 @@ import { useFormState } from 'react-dom';
 export default function LoginForm() {
   const searchParams = useSearchParams();
   const callbackUrl = searchParams.get('callbackUrl') || '/';
-  const [errorMessage, formAction] = useFormState(authenticate, undefined);
+  const [errorMessage, formAction, isPending] = useFormState(
+    authenticate,
+    undefined
+  );
 
   return (
     <form action={formAction} className='space-y-5 w-full'>
@@ -49,7 +52,7 @@ export default function LoginForm() {
         />
       </div>
       <input type='hidden' name='callbackUrl' value={callbackUrl} />
-      <Button type='submit' className='mt-2 w-full'>
+      <Button type='submit' className='mt-2 w-full' aria-disabled={isPending}>
         Log in
       </Button>
       <div>
