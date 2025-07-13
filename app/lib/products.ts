@@ -712,19 +712,19 @@ export const products = [
       'wedding bands',
     ],
   },
-  {
-    id: 57,
-    image: '/er.jpg',
-    name: 'Elegant Ruby Ring',
-    description:
-      'Sophisticated ruby ring that captures the essence of passion and luxury with its deep red brilliance.',
-    price: 3360000,
-    category: 'Rings',
-    material: 'Ruby, Gold',
-    rating: 4.7,
-    stock: 7,
-    tags: ['ruby', 'ring', 'passion', 'luxury', 'sophisticated'],
-  },
+  // {
+  //   id: 57,
+  //   image: '/er.jpg',
+  //   name: 'Elegant Ruby Ring',
+  //   description:
+  //     'Sophisticated ruby ring that captures the essence of passion and luxury with its deep red brilliance.',
+  //   price: 3360000,
+  //   category: 'Rings',
+  //   material: 'Ruby, Gold',
+  //   rating: 4.7,
+  //   stock: 7,
+  //   tags: ['ruby', 'ring', 'passion', 'luxury', 'sophisticated'],
+  // },
   {
     id: 58,
     image: '/engagementring.jpg',
