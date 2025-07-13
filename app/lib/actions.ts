@@ -6,7 +6,11 @@ import { AuthError } from 'next-auth';
 import { z } from 'zod';
 import bcrypt from 'bcrypt';
 import postgres from 'postgres';
-import { redirect } from 'next/navigation';
+/* The line `import { redirect } from 'next/navigation';` is importing the `redirect` function from the
+'next/navigation' module. This function is likely used to handle navigation or redirection within a
+Next.js application. It allows you to programmatically redirect users to different pages or URLs
+within the application. */
+// import { redirect } from 'next/navigation';
 
 const sql = postgres(process.env.POSTGRES_URL!, { ssl: 'require' });
 
@@ -21,9 +25,11 @@ export async function authenticate(
   formData: FormData
 ) {
   try {
-    await signIn('credentials', Object.fromEntries(formData));
-    // After successful login, redirect to home page
-    redirect('/');
+    await signIn('credentials', {
+      ...Object.fromEntries(formData),
+      redirect: true,
+      redirectTo: '/',
+    });
   } catch (error) {
     if (error instanceof AuthError) {
       switch (error.type) {
