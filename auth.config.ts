@@ -1,17 +1,15 @@
 import type { NextAuthConfig } from 'next-auth';
 
+// Mock auth config for development
 export const authConfig = {
   pages: {
     signIn: '/login',
   },
   callbacks: {
-    authorized({ auth }) {
-      const isLoggedIn = !!auth?.user;
-      if (!isLoggedIn) {
-        return false; // Redirect unauthenticated users to the login page
-      }
+    authorized() {
+      // For development, always return true to simulate authenticated state
       return true;
     },
   },
-  providers: [], // Add providers with an empty array for now
+  providers: [], // Empty providers for mock auth
 } satisfies NextAuthConfig;

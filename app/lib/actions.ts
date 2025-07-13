@@ -1,50 +1,35 @@
 'use server';
 
-import { signIn } from '@/auth';
-import { signOut } from '@/auth';
-import { AuthError } from 'next-auth';
-import { z } from 'zod';
-import bcrypt from 'bcrypt';
-import postgres from 'postgres';
-/* The line `import { redirect } from 'next/navigation';` is importing the `redirect` function from the
-'next/navigation' module. This function is likely used to handle navigation or redirection within a
-Next.js application. It allows you to programmatically redirect users to different pages or URLs
-within the application. */
-// import { redirect } from 'next/navigation';
-
-const sql = postgres(process.env.POSTGRES_URL!, { ssl: 'require' });
-
-const SignupSchema = z.object({
-  name: z.string().min(1, 'Name is required'),
-  email: z.string().email('Invalid email format'),
-  password: z.string().min(6, 'Password must be at least 6 characters'),
-});
+// Mock user for development
+const MOCK_USER = {
+  email: 'test@example.com',
+  password: 'password123',
+  name: 'Test User',
+};
 
 export async function authenticate(
   prevState: string | undefined,
   formData: FormData
 ) {
   try {
-    await signIn('credentials', {
-      ...Object.fromEntries(formData),
-      redirect: true,
-      redirectTo: '/',
-    });
-  } catch (error) {
-    if (error instanceof AuthError) {
-      switch (error.type) {
-        case 'CredentialsSignin':
-          return 'Invalid credentials.';
-        default:
-          return 'Something went wrong.';
-      }
+    // Mock authentication
+    const email = formData.get('email');
+    const password = formData.get('password');
+
+    if (email === MOCK_USER.email && password === MOCK_USER.password) {
+      // Simulate successful login
+      return undefined; // No error means success
     }
-    throw error;
+
+    return 'Invalid credentials.';
+  } catch {
+    return 'Something went wrong.';
   }
 }
 
 export async function signOutAction() {
-  await signOut({ redirectTo: '/' });
+  // Mock sign out - just redirect
+  window.location.href = '/';
 }
 
 export async function signUp(
@@ -52,38 +37,16 @@ export async function signUp(
   formData: FormData
 ) {
   try {
-    // Validate form data
-    const validatedFields = SignupSchema.safeParse({
-      name: formData.get('name'),
-      email: formData.get('email'),
-      password: formData.get('password'),
-    });
+    // Mock signup validation
+    const name = formData.get('name');
+    const email = formData.get('email');
+    const password = formData.get('password');
 
-    if (!validatedFields.success) {
+    if (!name || !email || !password) {
       return 'Please check your input and try again.';
     }
 
-    const { name, email, password } = validatedFields.data;
-
-    // Check if email already exists
-    const existingUser = await sql`
-      SELECT email FROM users WHERE email=${email}
-    `;
-
-    if (existingUser.length > 0) {
-      return 'Email already registered. Please use a different email.';
-    }
-
-    // Hash password
-    const hashedPassword = await bcrypt.hash(password, 10);
-
-    // Create new user
-    await sql`
-      INSERT INTO users (name, email, password)
-      VALUES (${name}, ${email}, ${hashedPassword})
-    `;
-
-    // Return success instead of redirecting
+    // Mock successful signup
     return 'success';
   } catch (error) {
     console.error('Signup error:', error);
