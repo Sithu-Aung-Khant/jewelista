@@ -1,26 +1,29 @@
-import React from 'react';
 import Image, { StaticImageData } from 'next/image';
 
-type IconButtonProps = {
+export interface IconButtonProps {
   icon: string | StaticImageData;
   alt: string;
   title: string;
   ariaLabel: string;
   className?: string;
-};
+  onClick?: () => void;
+}
 
 export const IconButton = ({
   icon,
   alt,
   title,
   ariaLabel,
-  className,
+  className = '',
+  onClick,
 }: IconButtonProps) => (
   <button
-    className="hover:opacity-80 transition-opacity"
+    type='button'
     title={title}
     aria-label={ariaLabel}
+    onClick={onClick}
+    className='hover:opacity-80 transition-opacity'
   >
-    <Image src={icon} className={className} width={20} height={20} alt={alt} />
+    <Image src={icon} alt={alt} className={className} width={20} height={20} />
   </button>
 );
