@@ -22,14 +22,14 @@ export const NAV_ITEMS: NavItem[] = [
     ],
   },
   {
-    label: 'LOVE AND ENGAGEMENT',
-    href: '/love-and-engagement/all',
+    label: 'WEDDING AND ENGAGEMENT',
+    href: '/wedding-and-engagement/all',
     hasDropdown: true,
     subcategories: [
-      { label: 'All', href: '/love-and-engagement/all' },
+      { label: 'All', href: '/wedding-and-engagement/all' },
       {
         label: 'Engagement Rings',
-        href: '/love-and-engagement/engagement-rings',
+        href: '/wedding-and-engagement/engagement-rings',
       },
       { label: 'Wedding Rings', href: '/love-and-engagement/wedding-rings' },
     ],
