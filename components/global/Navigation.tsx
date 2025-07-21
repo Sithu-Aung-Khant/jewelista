@@ -80,7 +80,13 @@ const Navigation = () => {
             </motion.div>
           ))}
         </div>
-        <div className='flex h-full w-1/4 md:hover:cursor-pointer md:pr-8 md:pl-4 pr-2 py-3 md:w-max justify-end items-center gap-x-2.5'>
+        <Link
+          href='/'
+          className='flex-shrink-0 md:px-8 py-3 hidden md:block opacity-0 md:border-r-2'
+        >
+          <span className='text-4xl font-playfair-display'>Jewelista</span>
+        </Link>
+        <div className='flex h-full w-1/4 md:hidden md:hover:cursor-pointer md:pr-8 md:pl-4 pr-2 py-3 md:w-max justify-end items-center gap-x-2.5'>
           <IconButton
             icon={HeartIcon}
             alt='heart icon'

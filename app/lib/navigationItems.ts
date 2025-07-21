@@ -36,5 +36,4 @@ export const NAV_ITEMS: NavItem[] = [
   },
 
   // { label: 'ABOUT', href: '/about' },
-  { label: 'CONTACT US', href: '/contact' },
 ];
