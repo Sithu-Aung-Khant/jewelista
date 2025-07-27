@@ -1,8 +1,6 @@
 'use client';
 import { NAV_ITEMS } from '@/app/lib/navigationItems';
 import TbMenu2 from '@/public/icons/TbMenu2.svg';
-import CalendarIcon from '@/public/icons/calendar.svg';
-import HeartIcon from '@/public/icons/heart.svg';
 import ShopIcon from '@/public/icons/shop.svg';
 import { motion } from 'framer-motion';
 import { ChevronDown } from 'lucide-react';
@@ -28,15 +26,8 @@ const Navigation = () => {
             alt='menu'
             title='menu'
             ariaLabel='Open menu'
-            className='size-5'
+            className='size-6'
             onClick={() => setIsMobileMenuOpen(true)}
-          />
-          <IconButton
-            icon={CalendarIcon}
-            alt='heart icon'
-            title='Wishlist'
-            ariaLabel='Add to Wishlist'
-            className='size-4'
           />
         </div>
         <Link href='/' className='flex-shrink-0 md:px-8 py-3 md:border-r-2'>
@@ -87,20 +78,15 @@ const Navigation = () => {
           <span className='text-4xl font-playfair-display'>Jewelista</span>
         </Link>
         <div className='flex h-full w-1/4 md:hidden md:hover:cursor-pointer md:pr-8 md:pl-4 pr-2 py-3 md:w-max justify-end items-center gap-x-2.5'>
-          <IconButton
-            icon={HeartIcon}
-            alt='heart icon'
-            title='Wishlist'
-            ariaLabel='Add to Wishlist'
-            className='size-5 -mb-0.5 md:hidden'
-          />
-          <IconButton
-            icon={ShopIcon}
-            alt='shop icon'
-            title='Shopping Cart'
-            ariaLabel='View Shopping Cart'
-            className='size-4 md:hidden'
-          />
+          <Link href='/shopping-cart' passHref>
+            <IconButton
+              icon={ShopIcon}
+              alt='shop icon'
+              title='Shopping Cart'
+              ariaLabel='View Shopping Cart'
+              className='size-5 md:hidden'
+            />
+          </Link>
         </div>
       </motion.nav>
 

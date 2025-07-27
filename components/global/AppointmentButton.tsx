@@ -11,6 +11,5 @@ export const AppointmentButton = () => (
       height={20}
       alt='calendar icon'
     />
-    Book an appointment
   </button>
 );

@@ -1,11 +1,10 @@
 'use client';
 
-// import HeartIcon from '@/public/icons/heart.svg';
 import { signOutAction } from '@/app/lib/actions';
 import ShopIcon from '@/public/icons/shop.svg';
-import ProfileIcon from '@/public/icons/user.svg';
 import { LogOut } from 'lucide-react';
 import { IconButton } from './IconButton';
+import Link from 'next/link';
 
 export const ActionButtons = () => {
   return (
@@ -20,20 +19,15 @@ export const ActionButtons = () => {
         </button>
       </form>
 
-      <IconButton
-        icon={ProfileIcon}
-        alt='calendar icon'
-        title='Book Appointment'
-        ariaLabel='Book Appointment'
-        className='size-[1.2rem]'
-      />
-      <IconButton
-        icon={ShopIcon}
-        alt='shop icon'
-        title='Shopping Cart'
-        className='size-[0.9rem]'
-        ariaLabel='View Shopping Cart'
-      />
+      <Link href='/shopping-cart' passHref>
+        <IconButton
+          icon={ShopIcon}
+          alt='shop icon'
+          title='Shopping Cart'
+          className='size-[0.9rem]'
+          ariaLabel='View Shopping Cart'
+        />
+      </Link>
     </div>
   );
 };
