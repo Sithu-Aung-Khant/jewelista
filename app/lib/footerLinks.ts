@@ -1,30 +1,29 @@
 export const footerLinks = [
   {
-    title: 'CONTACT US',
+    title: 'JEWELRY CATEGORIES',
     links: [
-      { href: '/blog', text: 'Blog' },
-      { href: '/lab-grown-diamond-guide', text: 'Lab Grown Diamond Guide' },
-      { href: '/moissanite-vs-diamond', text: 'Moissanite vs. Diamond Guide' },
-      { href: '/ring-size-guide', text: 'Ring Size Guide' }
-    ]
+      { href: '/jewelry/necklaces', text: 'Necklaces' },
+      { href: '/jewelry/rings', text: 'Rings' },
+      { href: '/jewelry/earrings', text: 'Earrings' },
+    ],
   },
   {
-    title: 'THE ART OF GIFTING',
+    title: 'WEDDING & ENGAGEMENT',
     links: [
-      { href: '/book-appointment', text: 'Book Appointment' },
-      { href: '/stores', text: 'Visit Our Stores' },
-      { href: '/contact', text: 'Contact Us' },
-      { href: '/consultation', text: 'Schedule a consultation' }
-    ]
+      {
+        href: '/wedding-and-engagement/engagement-rings',
+        text: 'Engagement Rings',
+      },
+      { href: '/wedding-and-engagement/wedding-rings', text: 'Wedding Rings' },
+      { href: '/jewelry/bracelets', text: 'Bracelets' },
+    ],
   },
   {
-    title: 'BESPOKE & SERVICES',
+    title: 'CUSTOMER SERVICE',
     links: [
-      { href: '/warranty', text: 'Warranty' },
-      { href: '/returns', text: 'Repairs & Returns' },
-      { href: '/faqs', text: 'FAQs' },
-      { href: '/track-order', text: 'Track Your Order' },
-      { href: '/insurance', text: 'Jewelry Insurance' }
-    ]
-  }
+      { href: '/shopping-cart', text: 'Shopping Cart' },
+      { href: '/jewelry/all', text: 'All Jewelry' },
+      { href: '/wedding-and-engagement/all', text: 'All Wedding & Engagement' },
+    ],
+  },
 ];
