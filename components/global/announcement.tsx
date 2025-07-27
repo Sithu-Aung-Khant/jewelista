@@ -1,7 +1,6 @@
 'use client';
 import React from 'react';
-import { AppointmentButton } from './AppointmentButton';
-import { ActionButtons } from './IconButtons';
+
 import { motion } from 'framer-motion';
 
 const Announcement = () => {
@@ -11,19 +10,7 @@ const Announcement = () => {
       initial={{ opacity: 0, y: -10 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5, delay: 0.2 }}
-    >
-      <div className='hidden md:flex items-center w-1/4 gap-x-2 px-4'>
-        <AppointmentButton />
-      </div>
-      <div className='flex items-center'>
-        <span className='inline-block mx-2'>•</span>
-        <span className='w-max md:text-[11px] tracking-wide'>
-          Exclusive Collection Launch: Discover Timeless Elegance Today
-        </span>
-        <span className='inline-block mx-2'>•</span>
-      </div>
-      <ActionButtons />
-    </motion.div>
+    ></motion.div>
   );
 };
 

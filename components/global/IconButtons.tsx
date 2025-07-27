@@ -8,7 +8,7 @@ import Link from 'next/link';
 
 export const ActionButtons = () => {
   return (
-    <div className='hidden md:flex justify-end w-1/4 gap-x-4 px-4 items-center'>
+    <div className='hidden md:flex md:w-52 justify-end w-1/4 gap-x-4 px-4 items-center'>
       <form action={signOutAction}>
         <button
           type='submit'
@@ -24,7 +24,7 @@ export const ActionButtons = () => {
           icon={ShopIcon}
           alt='shop icon'
           title='Shopping Cart'
-          className='size-[0.9rem]'
+          className='size-[0.9rem] md:size-[15px]'
           ariaLabel='View Shopping Cart'
         />
       </Link>

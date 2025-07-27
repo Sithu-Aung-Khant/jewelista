@@ -8,6 +8,7 @@ import Link from 'next/link';
 import { useState } from 'react';
 import { IconButton } from './IconButton';
 import MobileNav from './MobileNav';
+import { ActionButtons } from './IconButtons';
 
 const Navigation = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -30,7 +31,10 @@ const Navigation = () => {
             onClick={() => setIsMobileMenuOpen(true)}
           />
         </div>
-        <Link href='/' className='flex-shrink-0 md:px-8 py-3 md:border-r-2'>
+        <Link
+          href='/'
+          className='flex-shrink-0 md:w-52  md:px-8 py-3 md:border-r-2'
+        >
           <span className='text-4xl font-playfair-display'>Jewelista</span>
         </Link>
         <div className='hidden md:flex items-center gap-x-8 text-[13px] tracking-wider'>
@@ -71,12 +75,7 @@ const Navigation = () => {
             </motion.div>
           ))}
         </div>
-        <Link
-          href='/'
-          className='flex-shrink-0 md:px-8 py-3 hidden md:block opacity-0 md:border-r-2'
-        >
-          <span className='text-4xl font-playfair-display'>Jewelista</span>
-        </Link>
+        <ActionButtons />
         <div className='flex h-full w-1/4 md:hidden md:hover:cursor-pointer md:pr-8 md:pl-4 pr-2 py-3 md:w-max justify-end items-center gap-x-2.5'>
           <Link href='/shopping-cart' passHref>
             <IconButton

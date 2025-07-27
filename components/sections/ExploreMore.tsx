@@ -43,8 +43,10 @@ export default function ExploreMore() {
                 transition={{ duration: 0.5, delay: index * 0.1 }}
               >
                 <Link
-                  href='#'
+                  href={category.link}
                   className='group flex items-center md:my-1 justify-between hover:text-primary transition-colors duration-300'
+                  target='_blank'
+                  rel='noopener noreferrer'
                 >
                   <span className='text-xs md:text-sm font-dm-sans text-dark-brown tracking-wide underline-offset-2 hover:underline '>
                     {category.title}
