@@ -4,7 +4,7 @@ import { signIn } from '@/auth';
 import { signOut } from '@/auth';
 import { AuthError } from 'next-auth';
 import { z } from 'zod';
-import bcrypt from 'bcrypt';
+import bcrypt from 'bcryptjs';
 import postgres from 'postgres';
 /* The line `import { redirect } from 'next/navigation';` is importing the `redirect` function from the
 'next/navigation' module. This function is likely used to handle navigation or redirection within a
