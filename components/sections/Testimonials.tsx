@@ -26,7 +26,7 @@ export default function Testimonials() {
           viewport={{ once: true }}
           transition={{ duration: 0.5 }}
         >
-          Testimonials
+          Reviews & Recommendations
         </motion.h2>
         <Carousel opts={{ align: 'start' }} className='w-full relative'>
           <CarouselContent>

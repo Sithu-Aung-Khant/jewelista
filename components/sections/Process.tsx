@@ -7,17 +7,9 @@ import { processSteps } from '@/app/lib/processSteps';
 export default function Process() {
   return (
     <section className='w-full px-4 md:px-8 bg-white font-dm-sans'>
-      <div className='pt-6 text-sm max-w-7xl mx-auto'>
-        <span className='text-light-brown'>Home</span>
-        <span className='mx-2'>/</span>
-        <span className=''>Jewelry</span>
-      </div>
       <div className='max-w-7xl mx-auto py-14'>
         <div className='grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12'>
           <div className='space-y-3'>
-            <h2 className='text-3xl tracking-wide md:text-4xl font-playfair-display text-darkest-brown'>
-              Jewelry
-            </h2>
             <p className='text-dark-brown text-sm md:text-xl font-dm-sans tracking-wider md:leading-relaxed md:w-2/3 md:py-5'>
               Discover Our Collection: Timeless Jewelry for Every Occasion
             </p>
