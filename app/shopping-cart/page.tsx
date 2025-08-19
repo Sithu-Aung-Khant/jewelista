@@ -4,12 +4,18 @@ import { products } from '@/app/lib/products';
 import { Button } from '@/components/ui/button';
 import { useShoppingCart } from '@/context/ShoppingCartContext';
 import { motion } from 'framer-motion';
-import { Trash2, Phone, Send } from 'lucide-react';
+import { Trash2, Phone, Send, ArrowLeft } from 'lucide-react';
 import Image from 'next/image';
+import { useRouter } from 'next/navigation';
 
 export default function ShoppingCartPage() {
   const { cartItems, removeFromCart, updateQuantity, getCartTotal } =
     useShoppingCart();
+  const router = useRouter();
+
+  const handleBack = () => {
+    router.back();
+  };
 
   const cartProducts = cartItems.map((item) => ({
     ...item,
@@ -18,22 +24,49 @@ export default function ShoppingCartPage() {
 
   if (cartItems.length === 0) {
     return (
-      <div className='container mx-auto px-4 py-16 text-center'>
-        <h2 className='text-2xl font-playfair-display text-dark-brown mb-4'>
-          Your Cart is Empty
-        </h2>
-        <p className='text-gray-600'>
-          Start shopping to add items to your cart.
-        </p>
+      <div className='container mx-auto px-4 py-16'>
+        <div className='flex items-center gap-4 mb-8'>
+          <motion.button
+            onClick={handleBack}
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+            className='flex items-center gap-2 px-3 py-2 rounded-full border border-border-brown hover:bg-gray-50 transition-colors'
+            aria-label='Go back'
+          >
+            <ArrowLeft className='w-4 h-4 text-dark-brown' />
+            <span className='text-sm font-medium text-dark-brown'>Back</span>
+          </motion.button>
+        </div>
+        <div className='text-center'>
+          <h2 className='text-2xl font-playfair-display text-dark-brown mb-4'>
+            Your Cart is Empty
+          </h2>
+          <p className='text-gray-600'>
+            Start shopping to add items to your cart.
+          </p>
+        </div>
       </div>
     );
   }
 
   return (
     <div className='container mx-auto px-4 py-8 max-w-7xl'>
-      <h1 className='text-3xl font-playfair-display text-dark-brown mb-8'>
-        Shopping Cart
-      </h1>
+      <div className='flex items-center gap-4 mb-8'>
+        <motion.button
+          onClick={handleBack}
+          whileHover={{ scale: 1.05 }}
+          whileTap={{ scale: 0.95 }}
+          className='flex items-center gap-2 px-3 py-2 rounded-full border border-border-brown hover:bg-gray-50 transition-colors'
+          aria-label='Go back'
+        >
+          <ArrowLeft className='w-4 h-4 text-dark-brown' />
+          <span className='text-sm font-medium text-dark-brown'>Back</span>
+        </motion.button>
+
+        <h1 className='text-3xl font-playfair-display text-dark-brown'>
+          Shopping Cart
+        </h1>
+      </div>
 
       <div className='grid grid-cols-1 lg:grid-cols-3 gap-8'>
         {/* Left Column - Cart Items and Order Summary */}
@@ -172,28 +205,26 @@ export default function ShoppingCartPage() {
                 </div>
               </div> */}
             </div>
+          </div>
 
-            {/* Business Hours */}
-            <div className='border-t border-gray-200 pt-4'>
-              <h3 className='font-medium text-dark-brown mb-2'>
-                Business Hours
-              </h3>
-              <div className='space-y-1 text-sm text-gray-600'>
-                <p>Monday - Friday: 9:00 AM - 6:00 PM</p>
-                <p>Saturday: 9:00 AM - 4:00 PM</p>
-                <p>Sunday: Closed</p>
-              </div>
+          {/* Business Hours */}
+          <div className='border-t border-gray-200 pt-4'>
+            <h3 className='font-medium text-dark-brown mb-2'>Business Hours</h3>
+            <div className='space-y-1 text-sm text-gray-600'>
+              <p>Monday - Friday: 9:00 AM - 6:00 PM</p>
+              <p>Saturday: 9:00 AM - 4:00 PM</p>
+              <p>Sunday: Closed</p>
             </div>
+          </div>
 
-            {/* Quick Contact Buttons */}
-            <div className='space-y-3'>
-              <Button
-                onClick={() => window.open('https://t.me/urinzali', '_blank')}
-                className='w-full text-white'
-              >
-                Contact Us
-              </Button>
-            </div>
+          {/* Quick Contact Buttons */}
+          <div className='space-y-3'>
+            <Button
+              onClick={() => window.open('https://t.me/urinzali', '_blank')}
+              className='w-full text-white'
+            >
+              Contact Us
+            </Button>
           </div>
         </div>
       </div>
