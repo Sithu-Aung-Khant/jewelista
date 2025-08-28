@@ -77,14 +77,13 @@ const Navigation = () => {
           ))}
         </div>
         <ActionButtons />
-        <div className='flex h-full w-1/4 md:hidden md:hover:cursor-pointer md:pr-8 md:pl-4 pr-2 py-3 md:w-max justify-end items-center gap-x-2.5'>
+        <div className='flex h-full w-1/4 md:hidden md:hover:cursor-pointer md:pr-8 md:pl-4 pr-2 py-3 md:w-max justify-end items-center gap-x-0.5'>
           <form action={signOutAction}>
             <button
               type='submit'
               className='flex items-center gap-2 rounded-md text-sm font-medium p-2 px-3 hover:bg-gray-100 transition-colors duration-200 text-dark-brown'
             >
               <LogOut className='w-4 h-4' />
-              <span className='text-xs'>Sign Out</span>
             </button>
           </form>
           <Link href='/shopping-cart' passHref>
