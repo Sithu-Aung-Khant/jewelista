@@ -31,4 +31,28 @@ export const testimonials = [
     description:
       "Jewelista doesn't just sell jewelry - they create lasting memories. Their exceptional quality and outstanding service made choosing an engagement ring a wonderful experience.",
   },
+  {
+    id: 5,
+    imageType: 'jpg',
+    image: '/images/customers/5.jpg',
+    name: 'Min Khant Aung',
+    description:
+      "Jewelista's attention to detail is incredible. Every stone is perfectly set, every curve is precisely crafted. My ring feels like it was made specifically for me - absolutely perfect in every way.",
+  },
+  {
+    id: 6,
+    imageType: 'jpg',
+    image: '/images/customers/6.jpg',
+    name: 'Nitar Bachit',
+    description:
+      'I was amazed by the variety of designs available at Jewelista. They helped me find the perfect piece that matched my style perfectly. The staff was knowledgeable and patient throughout the process.',
+  },
+  {
+    id: 7,
+    imageType: 'jpg',
+    image: '/images/customers/7.jpg',
+    name: 'Kyaw Kyaw Naing',
+    description:
+      'Jewelista transformed my vision into reality. They took the time to understand exactly what I wanted and delivered beyond my expectations. The final piece is absolutely stunning and unique.',
+  },
 ];
