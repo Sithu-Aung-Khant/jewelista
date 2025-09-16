@@ -9,6 +9,7 @@ const nextConfig = {
       'i00.eu',
       'images.laceandfavour.com',
       'www.tanishq.co.in',
+      'cdn.sanity.io', // Add this line to allow Sanity CDN images
     ],
   },
 };
