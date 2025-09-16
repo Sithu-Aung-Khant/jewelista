@@ -42,7 +42,7 @@ export default async function ProductListSanity() {
   return (
     <section className='w-full py-16 px-10 md:px-8'>
       <div className='max-w-7xl mx-auto'>
-        <AnimatedHeading>Latest Products</AnimatedHeading>
+        <AnimatedHeading>Products from CMS</AnimatedHeading>
         <Carousel opts={{ align: 'start' }} className='w-full relative'>
           <CarouselContent>
             {products.map((product, index) => (
