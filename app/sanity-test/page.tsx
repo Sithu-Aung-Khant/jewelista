@@ -38,7 +38,8 @@ export default async function ProductsPage() {
           <ProductCard
             key={product._id}
             product={{
-              id: parseInt(product._id.replace(/^[^0-9]+/, '')), // Extract numeric part from _id
+              id: product._id,
+              isSanityProduct: true,
               image: product.image || '/placeholder.jpg',
               name: product.name,
               description: product.description || '',

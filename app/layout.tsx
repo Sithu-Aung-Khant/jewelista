@@ -3,6 +3,7 @@ import type { Metadata } from 'next';
 import { DM_Sans, Playfair_Display } from 'next/font/google';
 import './globals.css';
 import { ShoppingCartProvider } from '@/context/ShoppingCartContext';
+import { SanityShoppingCartProvider } from '@/context/SanityShoppingCartContext';
 import { Toaster } from 'sonner';
 
 const dmSans = DM_Sans({
@@ -39,8 +40,10 @@ export default function RootLayout({
         className={`${dmSans.variable} ${playfairDisplay.variable} antialiased bg-white text-dark-brown`}
       >
         <ShoppingCartProvider>
-          <Toaster position='top-center' />
-          <main>{children}</main>
+          <SanityShoppingCartProvider>
+            <Toaster position='top-center' />
+            <main>{children}</main>
+          </SanityShoppingCartProvider>
         </ShoppingCartProvider>
       </body>
     </html>

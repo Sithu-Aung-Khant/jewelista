@@ -49,7 +49,8 @@ export default async function ProductListSanity() {
               <CarouselItem key={product._id} className='md:basis-1/4'>
                 <ProductCard
                   product={{
-                    id: parseInt(product._id.replace(/^[^0-9]+/, '')),
+                    id: product._id,
+                    isSanityProduct: true,
                     image: product.image || '/placeholder.jpg',
                     name: product.name,
                     description: product.description || '',

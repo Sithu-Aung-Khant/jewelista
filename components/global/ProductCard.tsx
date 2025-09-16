@@ -5,7 +5,7 @@ import { motion } from 'framer-motion';
 import Link from 'next/link';
 
 interface Product {
-  id: number;
+  id: string | number;
   image: string;
   name: string;
   description: string;
@@ -15,6 +15,7 @@ interface Product {
   rating: number;
   stock: number;
   tags: string[];
+  isSanityProduct?: boolean;
 }
 
 interface ProductCardProps {
@@ -31,7 +32,13 @@ export function ProductCard({
   truncateName = false,
 }: ProductCardProps) {
   return (
-    <Link href={`/product/${product.id}`}>
+    <Link
+      href={
+        product.isSanityProduct
+          ? `/sanity-products/${product.id}`
+          : `/product/${product.id}`
+      }
+    >
       <motion.div
         className='py-6 px-4 border border-border-brown relative group hover:shadow-lg transition-all duration-300 cursor-pointer'
         initial={{
