@@ -34,61 +34,143 @@ export function SanityShoppingCartProvider({
 }: {
   children: ReactNode;
 }) {
-  const [cartItems, setCartItems] = useState<CartItem[]>(() => {
-    // Initialize from localStorage on mount
-    if (typeof window !== 'undefined') {
-      const storedCart = localStorage.getItem(CART_STORAGE_KEY);
-      return storedCart ? JSON.parse(storedCart) : [];
-    }
-    return [];
-  });
+  const [cartItems, setCartItems] = useState<CartItem[]>([]);
+  const [usesServerCart, setUsesServerCart] = useState<boolean>(false);
 
-  // Save to localStorage whenever cart changes
+  // Hydrate from server if logged in, else localStorage
   useEffect(() => {
-    if (typeof window !== 'undefined') {
+    let isMounted = true;
+    (async () => {
+      try {
+        const res = await fetch('/api/cart', { method: 'GET' });
+        if (res.ok) {
+          const data = await res.json();
+          const items = Array.isArray(data?.items) ? data.items : [];
+          const mapped: CartItem[] = items
+            .map((it: { product_id: string; quantity: number }) => ({
+              id: it.product_id,
+              quantity: it.quantity,
+            }))
+            .filter((it: CartItem) => !!it.id && it.quantity > 0);
+          if (isMounted) {
+            setUsesServerCart(true);
+            setCartItems(mapped);
+          }
+        } else {
+          const stored =
+            typeof window !== 'undefined'
+              ? localStorage.getItem(CART_STORAGE_KEY)
+              : null;
+          const local = stored ? (JSON.parse(stored) as CartItem[]) : [];
+          if (isMounted) {
+            setUsesServerCart(false);
+            setCartItems(local);
+          }
+        }
+      } catch {
+        const stored =
+          typeof window !== 'undefined'
+            ? localStorage.getItem(CART_STORAGE_KEY)
+            : null;
+        const local = stored ? (JSON.parse(stored) as CartItem[]) : [];
+        if (isMounted) {
+          setUsesServerCart(false);
+          setCartItems(local);
+        }
+      }
+    })();
+    return () => {
+      isMounted = false;
+    };
+  }, []);
+
+  // Persist to localStorage when not on server cart
+  useEffect(() => {
+    if (!usesServerCart && typeof window !== 'undefined') {
       localStorage.setItem(CART_STORAGE_KEY, JSON.stringify(cartItems));
     }
-  }, [cartItems]);
+  }, [cartItems, usesServerCart]);
 
-  const addToCart = (productId: string, quantity: number) => {
-    setCartItems((prevItems) => {
-      const existingItem = prevItems.find((item) => item.id === productId);
-      let newItems;
-      if (existingItem) {
-        newItems = prevItems.map((item) =>
-          item.id === productId
-            ? { ...item, quantity: item.quantity + quantity }
-            : item
+  const addToCart = async (productId: string, quantity: number) => {
+    setCartItems((prev) => {
+      const existing = prev.find((i) => i.id === productId);
+      if (existing) {
+        return prev.map((i) =>
+          i.id === productId ? { ...i, quantity: i.quantity + quantity } : i
         );
-      } else {
-        newItems = [...prevItems, { id: productId, quantity }];
       }
-      return newItems;
+      return [...prev, { id: productId, quantity }];
     });
+    if (usesServerCart) {
+      try {
+        const res = await fetch('/api/cart/item', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ productId, quantity }),
+        });
+        if (!res.ok) throw new Error('Failed');
+      } catch {
+        setCartItems((prev) => {
+          const after = prev.map((i) =>
+            i.id === productId ? { ...i, quantity: i.quantity - quantity } : i
+          );
+          return after.filter((i) => i.quantity > 0);
+        });
+      }
+    }
   };
 
-  const removeFromCart = (productId: string) => {
-    setCartItems((prevItems) => {
-      const newItems = prevItems.filter((item) => item.id !== productId);
-      return newItems;
-    });
+  const removeFromCart = async (productId: string) => {
+    const prevSnapshot = cartItems;
+    setCartItems((prev) => prev.filter((i) => i.id !== productId));
+    if (usesServerCart) {
+      try {
+        const res = await fetch('/api/cart/item', {
+          method: 'DELETE',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ productId }),
+        });
+        if (!res.ok) throw new Error('Failed');
+      } catch {
+        setCartItems(prevSnapshot);
+      }
+    }
   };
 
-  const updateQuantity = (productId: string, quantity: number) => {
+  const updateQuantity = async (productId: string, quantity: number) => {
     if (quantity < 1) {
-      removeFromCart(productId);
+      await removeFromCart(productId);
       return;
     }
-    setCartItems((prevItems) => {
-      const newItems = prevItems.map((item) =>
-        item.id === productId ? { ...item, quantity } : item
-      );
-      return newItems;
-    });
+    const prevSnapshot = cartItems;
+    setCartItems((prev) =>
+      prev.map((i) => (i.id === productId ? { ...i, quantity } : i))
+    );
+    if (usesServerCart) {
+      try {
+        const res = await fetch('/api/cart/item', {
+          method: 'PATCH',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ productId, quantity }),
+        });
+        if (!res.ok) throw new Error('Failed');
+      } catch {
+        setCartItems(prevSnapshot);
+      }
+    }
   };
 
-  const clearCart = () => {
+  const clearCart = async () => {
+    const prevSnapshot = cartItems;
     setCartItems([]);
+    if (usesServerCart) {
+      try {
+        const res = await fetch('/api/cart', { method: 'DELETE' });
+        if (!res.ok) throw new Error('Failed');
+      } catch {
+        setCartItems(prevSnapshot);
+      }
+    }
   };
 
   const getCartTotal = async () => {

@@ -1,4 +1,6 @@
 import NextAuth from 'next-auth';
+import type { Session } from 'next-auth';
+import type { JWT } from 'next-auth/jwt';
 import Credentials from 'next-auth/providers/credentials';
 import { authConfig } from './auth.config';
 import { z } from 'zod';
@@ -20,6 +22,27 @@ async function getUser(email: string): Promise<User | undefined> {
 
 export const { auth, signIn, signOut } = NextAuth({
   ...authConfig,
+  callbacks: {
+    ...authConfig.callbacks,
+    async jwt({ token, user }): Promise<JWT> {
+      if (user) {
+        const userId = (user as Partial<User>).id;
+        if (userId) {
+          (token as JWT & { id?: string }).id = userId;
+        }
+      }
+      return token;
+    },
+    async session({ session, token }): Promise<Session> {
+      if (session.user) {
+        const t = token as JWT & { id?: string };
+        if (t.id) {
+          (session.user as typeof session.user & { id?: string }).id = t.id;
+        }
+      }
+      return session;
+    },
+  },
   providers: [
     Credentials({
       async authorize(credentials) {
