@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import { auth } from '@/auth';
 // import localFont from "next/font/local";
 import { DM_Sans, Playfair_Display } from 'next/font/google';
 import './globals.css';
@@ -29,22 +30,29 @@ export const metadata: Metadata = {
   },
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const session = await auth();
+  const userKey = (session?.user?.id ||
+    session?.user?.email ||
+    'guest') as string;
+
   return (
     <html lang='en'>
       <body
         className={`${dmSans.variable} ${playfairDisplay.variable} antialiased bg-white text-dark-brown`}
       >
-        <ShoppingCartProvider>
-          <SanityShoppingCartProvider>
-            <Toaster position='top-center' />
-            <main>{children}</main>
-          </SanityShoppingCartProvider>
-        </ShoppingCartProvider>
+        <div key={userKey}>
+          <ShoppingCartProvider>
+            <SanityShoppingCartProvider>
+              <Toaster position='top-center' />
+              <main>{children}</main>
+            </SanityShoppingCartProvider>
+          </ShoppingCartProvider>
+        </div>
       </body>
     </html>
   );
