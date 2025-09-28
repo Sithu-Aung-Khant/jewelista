@@ -150,7 +150,7 @@ export default function ShoppingCartPage() {
             <div className='border-t border-gray-200 pt-4'>
               <div className='flex justify-between text-lg font-semibold text-dark-brown'>
                 <p>Total</p>
-                <p>{getCartTotal() * 1.08} MMK</p>
+                <p>{getCartTotal()} MMK</p>
               </div>
             </div>
           </div>
@@ -210,7 +210,7 @@ export default function ShoppingCartPage() {
           {/* Business Hours */}
           <div className='border-t border-gray-200 pt-4'>
             <h3 className='font-medium text-dark-brown mb-2'>Business Hours</h3>
-            <div className='space-y-1 text-sm text-gray-600'>
+            <div className='space-y-1 pb-3 text-sm text-gray-600'>
               <p>Monday - Friday: 9:00 AM - 6:00 PM</p>
               <p>Saturday: 9:00 AM - 4:00 PM</p>
               <p>Sunday: Closed</p>
@@ -221,7 +221,7 @@ export default function ShoppingCartPage() {
           <div className='space-y-3'>
             <Button
               onClick={() => window.open('https://t.me/urinzali', '_blank')}
-              className='w-full text-white'
+              className='w-full md:py-5 text-white'
             >
               Contact Us
             </Button>
