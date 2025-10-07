@@ -20,9 +20,9 @@ const playfairDisplay = Playfair_Display({
 });
 
 export const metadata: Metadata = {
-  title: 'My Jewel - Premium Jewelry Store',
+  title: 'Jewelista — Fine Jewelry for Every Moment',
   description:
-    'Discover exquisite jewelry pieces including rings, necklaces, earrings, and bracelets. Premium quality jewelry for every occasion.',
+    'Timeless designs crafted with care. Discover rings, necklaces, earrings, and bracelets for every moment.',
   icons: {
     icon: '/icon.png',
     shortcut: '/icon.png',
