@@ -3,7 +3,7 @@
 import { products } from '@/app/lib/products';
 import Image from 'next/image';
 import { notFound } from 'next/navigation';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import { Button } from '@/components/ui/button';
 import { ShoppingCart } from 'lucide-react';
@@ -16,22 +16,62 @@ export default function ProductPage({ params }: { params: { id: string } }) {
   const { addToCart } = useShoppingCart();
   const product = products.find((p) => p.id === parseInt(params.id));
   const [quantity, setQuantity] = useState(1);
+  const [liveStock, setLiveStock] = useState<number | null>(null);
   const [isAdding, setIsAdding] = useState(false);
 
   if (!product) {
     notFound();
   }
 
+  useEffect(() => {
+    // Fetch live stock from API; fallback to static if error
+    const controller = new AbortController();
+    (async () => {
+      try {
+        const res = await fetch(`/api/inventory/${product.id}`, {
+          signal: controller.signal,
+        });
+        if (res.ok) {
+          const data = await res.json();
+          setLiveStock(
+            typeof data.stock === 'number' ? data.stock : product.stock
+          );
+        } else {
+          setLiveStock(product.stock);
+        }
+      } catch {
+        setLiveStock(product.stock);
+      }
+    })();
+    return () => controller.abort();
+  }, [product.id, product.stock]);
+
+  const effectiveStock = liveStock ?? product.stock;
+
   const handleQuantityChange = (value: number) => {
-    if (value >= 1 && value <= product.stock) {
+    if (value >= 1 && value <= effectiveStock) {
       setQuantity(value);
     }
   };
 
-  const handleAddToCart = () => {
+  const handleAddToCart = async () => {
     setIsAdding(true);
     try {
-      addToCart(product.id, quantity);
+      await addToCart(product.id, quantity);
+      // Refresh stock after add
+      const res = await fetch(`/api/inventory/${product.id}`);
+      if (res.ok) {
+        const data = await res.json();
+        setLiveStock(
+          typeof data.stock === 'number'
+            ? data.stock
+            : effectiveStock - quantity
+        );
+      } else {
+        setLiveStock((prev) =>
+          typeof prev === 'number' ? Math.max(prev - quantity, 0) : prev
+        );
+      }
       toast.success('Added to cart successfully!', {
         description: `${quantity} x ${product.name} added to your cart`,
       });
@@ -100,7 +140,9 @@ export default function ProductPage({ params }: { params: { id: string } }) {
                 </p>
                 <p className='text-sm text-gray-600'>
                   Stock:{' '}
-                  <span className='font-medium'>{product.stock} available</span>
+                  <span className='font-medium'>
+                    {effectiveStock} available
+                  </span>
                 </p>
               </div>
             </div>
@@ -121,7 +163,7 @@ export default function ProductPage({ params }: { params: { id: string } }) {
                 <button
                   onClick={() => handleQuantityChange(quantity + 1)}
                   className='px-3 py-1 border-l border-gray-300 hover:bg-gray-100 disabled:opacity-50'
-                  disabled={quantity >= product.stock}
+                  disabled={quantity >= effectiveStock}
                   aria-label='Increase quantity'
                 >
                   +
@@ -132,14 +174,14 @@ export default function ProductPage({ params }: { params: { id: string } }) {
             {/* Add to Cart Button */}
             <Button
               onClick={handleAddToCart}
-              disabled={isAdding || product.stock === 0}
+              disabled={isAdding || effectiveStock === 0}
               className='w-full bg-dark-brown hover:bg-dark-brown/90 text-white py-3 rounded-md flex items-center justify-center space-x-2 disabled:opacity-50'
             >
               <ShoppingCart className='w-5 h-5' />
               <span>
                 {isAdding
                   ? 'Adding...'
-                  : product.stock === 0
+                  : effectiveStock === 0
                   ? 'Out of Stock'
                   : 'Add to Cart'}
               </span>
