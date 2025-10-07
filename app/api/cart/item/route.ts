@@ -4,17 +4,6 @@ import { auth } from '@/auth';
 
 const sql = postgres(process.env.POSTGRES_URL!, { ssl: 'require' });
 
-async function ensureCart(userId: string) {
-  const existing = await sql<{ id: string }[]>`
-    SELECT id FROM carts WHERE user_id = ${userId} LIMIT 1
-  `;
-  if (existing[0]) return existing[0].id;
-  const created = await sql<{ id: string }[]>`
-    INSERT INTO carts (user_id) VALUES (${userId}) RETURNING id
-  `;
-  return created[0].id;
-}
-
 export async function POST(req: Request) {
   const session = await auth();
   const userId = session?.user?.id || session?.user?.email;
@@ -62,7 +51,7 @@ export async function POST(req: Request) {
       `;
     });
     return NextResponse.json({ ok: true }, { status: 200 });
-  } catch (e) {
+  } catch {
     return NextResponse.json({ error: 'Insufficient stock' }, { status: 409 });
   }
 }
@@ -133,7 +122,7 @@ export async function PATCH(req: Request) {
       }
     });
     return NextResponse.json({ ok: true }, { status: 200 });
-  } catch (e) {
+  } catch {
     return NextResponse.json({ error: 'Insufficient stock' }, { status: 409 });
   }
 }

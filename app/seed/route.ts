@@ -81,7 +81,7 @@ async function seedInventoryFromProducts() {
 
 export async function GET() {
   try {
-    await sql.begin(async (trx) => {
+    await sql.begin(async () => {
       // Users
       await seedUsers();
       // Core schemas for cart
